@@ -1,43 +1,13 @@
-import "./App.css";
-import logo from "./logo.png";
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="mockBee logo" width="180" height="180" />
-        <h1 className="brand-title">
-          Welcome to <span>mockBee!</span>
-        </h1>
-        <p className="brand-description">
-          Get started by editing <code>src/App.js</code>
-        </p>
-        <div className="links">
-          <a
-            href="https://mockbee.netlify.app/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Explore mockBee
-          </a>
-          <a
-            href="https://mockbee.netlify.app/docs/api/introduction"
-            target="_blank"
-            rel="noreferrer"
-          >
-            API Documentation
-          </a>
-          <a
-            href="https://github.com/neogcamp/mockBee"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Contribute
-          </a>
-        </div>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+import { Heading, Text, Button, Box } from "@chakra-ui/react";
+import { useColorMode, useColorModeValue } from "@chakra-ui/react";
+export const App = () => {
+	const { colorMode, toggleColorMode } = useColorMode();
+	const bg = useColorModeValue("light.800", "brand.800");
+	const color = useColorModeValue("light.400", "brand.400");
+	return (
+		<Box bg={bg} color={color} h="100vh">
+			<Heading>This is heading</Heading> <Text>This is text</Text>{" "}
+			<Button onClick={toggleColorMode}>Toggle</Button>
+		</Box>
+	);
+};
