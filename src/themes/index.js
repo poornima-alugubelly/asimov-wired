@@ -1,9 +1,11 @@
 import { extendTheme } from "@chakra-ui/react";
-import { Button } from "./components/button";
+import { Input, Button } from "./components";
+import { mode } from "@chakra-ui/theme-tools";
+import { styles } from "./styles";
+
 // Global style overrides
 const fonts = {
 	heading: "Chakra Petch",
-	body: "Rajdhani",
 };
 
 const config = {
@@ -11,7 +13,13 @@ const config = {
 	useSystemColorMode: false,
 };
 
-console.log(Button);
+// const layerStyles = (props) => ({
+// 	holoBg: {
+// 		bg: mode("brand.700", "light.700")(props),
+// 		border: "1px solid",
+// 		borderColor: mode("brand.400", "light.400")(props),
+// 	},
+// });
 
 const colors = {
 	brand: {
@@ -28,6 +36,7 @@ const colors = {
 	},
 	red: "rgb(226, 22, 22)",
 	green: "rgb(14, 201, 56)",
+	gray: "rgb(121 137 139)",
 	light: {
 		50: "rgb(176, 196, 208, 0.4)",
 		100: "rgb(24, 25, 25)",
@@ -46,8 +55,8 @@ const overrides = {
 	fonts,
 	colors,
 	config,
-	components: { Button },
+	styles,
+	components: { Button, Input },
 };
-console.log(overrides);
 
 export const theme = extendTheme(overrides);
