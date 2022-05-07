@@ -7,44 +7,119 @@ import {
 	Image,
 	VStack,
 	IconButton,
+	MenuList,
+	MenuItem,
+	Menu,
+	MenuButton,
+	Input,
+	Textarea,
+	Button,
 } from "@chakra-ui/react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { useColorToggler } from "../../hooks/useColorToggler";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { BiEdit } from "react-icons/bi";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { useColorToggler } from "../../../hooks/useColorToggler";
+import { useState } from "react";
+import { deletePost, editPost } from "../../../reducers/postSlice";
+import { postCardStyle, flexSpaceBetween } from "../../../styles";
 
-export const PostCard = () => {
+export const PostCard = ({ postDetails }) => {
+	const dispatch = useDispatch();
+	const [isEditing, setIsEditing] = useState(false);
+	const [postEdited, setPostEdited] = useState({ ...postDetails });
+	const {
+		user: { firstName, lastName, username: currUser },
+		token,
+	} = useSelector((state) => state.auth);
+	const { id, _id, content, likes, username, image } = postDetails;
 	const colorToggler = useColorToggler();
 
+	const saveHandler = () => {
+		dispatch(editPost({ token, postId: _id, postData: postEdited }));
+		setIsEditing(false);
+	};
+
+	const deleteHandler = () => {
+		dispatch(deletePost({ token, postId: _id }));
+	};
+
 	return (
-		<VStack w="90%" align="start" spacing="4" paddingTop={4} paddingBottom={4}>
-			<HStack spacing="3">
-				<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-				<Box>
-					<Text>Some fancy cringey name</Text>
-					<Text color="gray">@username</Text>
+		<VStack {...postCardStyle}>
+			<Flex {...flexSpaceBetween}>
+				<HStack spacing="3">
+					<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+					<Box>
+						<Text>{`${firstName} ${lastName}`}</Text>
+						<Text color="gray">{`@${username}`}</Text>
+					</Box>
+				</HStack>
+				{currUser === username && (
+					<Menu>
+						<MenuButton
+							as={IconButton}
+							aria-label="Options"
+							variant={"unstyled"}
+							icon={<BsThreeDotsVertical className="icon-btn" />}
+						/>
+						<MenuList bgColor={colorToggler(900)}>
+							<MenuItem
+								icon={<BiEdit fontSize={"24"} />}
+								fontSize={"md"}
+								onClick={() => {
+									setIsEditing(true);
+								}}
+							>
+								Edit Post
+							</MenuItem>
+							<MenuItem
+								icon={<MdOutlineDeleteOutline fontSize={"24"} />}
+								fontSize={"md"}
+								onClick={deleteHandler}
+							>
+								Delete Post
+							</MenuItem>
+						</MenuList>
+					</Menu>
+				)}
+			</Flex>
+
+			{isEditing ? (
+				<VStack w="full" alignItems={"flex-start"} spacing="4">
+					<Textarea
+						height="200"
+						value={postEdited.content}
+						onChange={(e) =>
+							setPostEdited((prev) => ({ ...prev, content: e.target.value }))
+						}
+					></Textarea>{" "}
+					<Box>
+						<Button onClick={saveHandler}>Save</Button>{" "}
+						<Button variant={"outline"} onClick={setIsEditing(false)}>
+							Cancel
+						</Button>
+					</Box>
+				</VStack>
+			) : (
+				<Text>{content}</Text>
+			)}
+			{image && (
+				<Box w="full">
+					<Image
+						src="https://bit.ly/dan-abramov"
+						alt="Dan Abramov"
+						w="80%"
+						borderRadius="30"
+					/>
 				</Box>
-			</HStack>
-			<Text>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit
-				quis fugit autem non aut temporibus eos neque rerum voluptate beatae
-				obcaecati tenetur error culpa odio illo, est nostrum laboriosam quos
-				debitis nobis tempora. Libero ad pariatur veniam perspiciatis obcaecati
-				minus tempore sit aut dolores accusantium. Molestias tempora labore esse
-				nisi.`
-			</Text>
-			<Box w="full">
-				<Image
-					src="https://bit.ly/dan-abramov"
-					alt="Dan Abramov"
-					w="80%"
-					borderRadius="30"
-				/>
-			</Box>
+			)}
 			<Box>
 				<IconButton
 					icon={<AiFillHeart className="icon-btn" />}
 					variant="iconButton"
 				/>
-				<Text color={colorToggler(400)}>Liked by x people</Text>
+				<Text color={colorToggler(400)}>Liked by {likes.likeCount} people</Text>
 			</Box>
 		</VStack>
 	);

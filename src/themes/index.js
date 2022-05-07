@@ -32,7 +32,7 @@ const colors = {
 		600: "rgb(5, 88, 83)", // ternary-light
 		700: "rgb(2, 46, 42)", // ternary-color
 		800: "rgb(18, 18, 18)", // bg-color
-		900: "rgb(0, 0, 0, 0.8)", // black
+		900: "rgb(0, 0, 0, 0.9)", // black
 	},
 	red: "rgb(226, 22, 22)",
 	green: "rgb(14, 201, 56)",

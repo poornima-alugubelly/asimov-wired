@@ -3,7 +3,6 @@ import { Box } from "@chakra-ui/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NavBar } from "./components";
-import { Home } from "./pages/Home";
 import { BottomNav } from "./components";
 import { AppRoutes } from "./routes/AppRoutes";
 export const App = () => {
