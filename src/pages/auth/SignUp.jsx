@@ -17,23 +17,28 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { usePwdToggler } from "../../hooks/usePwdToggler";
-import { loginUser } from "../../reducers/authSlice";
+import { signupUser } from "../../reducers/authSlice";
 
-export const Login = () => {
+export const SignUp = () => {
 	const colorToggler = useColorToggler();
 	const { pwdToggle, pwdToggler } = usePwdToggler();
-	const [formVal, setFormVal] = useState({ username: "", password: "" });
+	const [formVal, setFormVal] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		username: "",
+		password: "",
+	});
 	const dispatch = useDispatch();
 	const { token, user, authStatus, authError } = useSelector(
 		(state) => state.auth
 	);
 	const navigate = useNavigate();
 
-	const loginHandler = async (e, username, password) => {
-		console.log(username, password);
-		setFormVal({ username, password });
+	const signUpHandler = async (e, formVal) => {
 		e.preventDefault();
-		const res = await dispatch(loginUser({ username, password }));
+		// console.log(firstName, lastName, email, username, password);
+		const res = await dispatch(signupUser(formVal));
 
 		if (res?.payload.encodedToken) {
 			navigate("/");
@@ -55,7 +60,7 @@ export const Login = () => {
 				border="1px solid"
 				borderColor={colorToggler(400)}
 				bg={colorToggler(700)}
-				p="8"
+				p="6"
 				m="2"
 			>
 				<Flex
@@ -70,13 +75,52 @@ export const Login = () => {
 				</Flex>
 				<Center>
 					<Text fontSize="2xl" pb="4">
-						LOGIN
+						SIGN UP
 					</Text>
 				</Center>
 				<VStack spacing="4">
 					<FormControl isRequired>
+						<FormLabel htmlFor="firstName" isRequired mb="0">
+							First Name
+						</FormLabel>
+						<Input
+							id="firstName"
+							placeholder="Enter first name..."
+							value={formVal.firstName}
+							onChange={(e) =>
+								setFormVal((prev) => ({ ...prev, firstName: e.target.value }))
+							}
+						/>
+					</FormControl>
+					<FormControl isRequired>
+						<FormLabel htmlFor="lastName" isRequired mb="0">
+							Last Name
+						</FormLabel>
+						<Input
+							id="lastName"
+							placeholder="Enter last name..."
+							value={formVal.lastName}
+							onChange={(e) =>
+								setFormVal((prev) => ({ ...prev, lastName: e.target.value }))
+							}
+						/>
+					</FormControl>
+					<FormControl isRequired>
+						<FormLabel htmlFor="email" isRequired mb="0">
+							Email
+						</FormLabel>
+						<Input
+							id="email"
+							placeholder="Enter email address..."
+							value={formVal.email}
+							onChange={(e) =>
+								setFormVal((prev) => ({ ...prev, email: e.target.value }))
+							}
+						/>
+					</FormControl>
+					<FormControl isRequired>
 						<FormLabel htmlFor="username" isRequired mb="0">
-							Username
+							User Name
 						</FormLabel>
 						<Input
 							id="username"
@@ -111,52 +155,26 @@ export const Login = () => {
 							/>
 						</InputGroup>
 					</FormControl>
-					{authError && <Text color={"red"}>{authError}</Text>}
 					{formVal.username !== "adarshbalika" && authStatus === "loading" ? (
 						<Button isLoading loadingText="Logging in..." w="full">
-							Login
+							Sign up
 						</Button>
 					) : (
-						<Button
-							w="full"
-							onClick={(e) =>
-								loginHandler(e, formVal.username, formVal.password)
-							}
-						>
-							Login
-						</Button>
-					)}
-					{formVal.username === "adarshbalika" && authStatus === "loading" ? (
-						<Button
-							isLoading
-							loadingText="Logging in..."
-							w="full"
-							variant={"outline"}
-						>
-							Login as guest
-						</Button>
-					) : (
-						<Button
-							w="full"
-							variant={"outline"}
-							onClick={(e) =>
-								loginHandler(e, "adarshbalika", "adarshBalika123")
-							}
-						>
-							Login as guest
+						<Button w="full" onClick={(e) => signUpHandler(e, formVal)}>
+							Sign up
 						</Button>
 					)}
 				</VStack>
-
+				{authError && <Text>{authError}</Text>}
 				<Flex align="center" justify="center" gap={2} pt="2">
-					<Text>Don't have an account?</Text>
-					<Link to="/signup">
+					<Text>Already Have an account?</Text>
+					<Link to="/login">
 						<Text
 							_hover={{ color: "brand.400" }}
 							borderBottom="1px solid"
 							borderBottomColor={colorToggler(100)}
 						>
-							Sign up
+							Login
 						</Text>
 					</Link>
 				</Flex>
