@@ -26,3 +26,19 @@ export const createPostService = async (token, postData) => {
 		{ headers: { authorization: token } }
 	);
 };
+
+export const likePostService = async (token, postId) => {
+	return await axios.post(
+		`/api/posts/like/${postId}`,
+		{},
+		{ headers: { authorization: token } }
+	);
+};
+
+export const dislikePostService = async (token, postId) => {
+	return await axios.post(
+		`/api/posts/dislike/${postId}`,
+		{},
+		{ headers: { authorization: token } }
+	);
+};

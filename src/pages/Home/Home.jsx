@@ -15,7 +15,7 @@ export const Home = () => {
 	useEffect(() => dispatch(getPosts()), []);
 	console.log(allPosts);
 	return (
-		<Box maxW="90vw" pt="20" m="auto">
+		<Box maxW="90vw" pt="20" pb="20" m="auto">
 			<Grid
 				templateColumns={["1fr", "1fr", "repeat(4,1fr)", "repeat(5, 1fr)"]}
 				gap={4}

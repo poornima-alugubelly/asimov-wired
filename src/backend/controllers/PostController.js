@@ -156,6 +156,7 @@ export const editPostHandler = function (schema, request) {
 
 export const likePostHandler = function (schema, request) {
 	const user = requiresAuth.call(this, request);
+	console.log(user);
 	try {
 		if (!user) {
 			return new Response(
@@ -169,7 +170,9 @@ export const likePostHandler = function (schema, request) {
 			);
 		}
 		const postId = request.params.postId;
+		console.log(postId);
 		const post = schema.posts.findBy({ _id: postId }).attrs;
+		console.log(post);
 		if (post.likes.likedBy.some((currUser) => currUser._id === user._id)) {
 			return new Response(
 				400,
@@ -177,12 +180,17 @@ export const likePostHandler = function (schema, request) {
 				{ errors: ["Cannot like a post that is already liked. "] }
 			);
 		}
+		console.log(1);
 		post.likes.dislikedBy = post.likes.dislikedBy.filter(
 			(currUser) => currUser._id !== user._id
 		);
+		console.log(2);
 		post.likes.likeCount += 1;
+		console.log(3);
 		post.likes.likedBy.push(user);
+		console.log(4);
 		this.db.posts.update({ _id: postId }, { ...post, updatedAt: formatDate() });
+		console.log(5);
 		return new Response(201, {}, { posts: this.db.posts });
 	} catch (error) {
 		return new Response(

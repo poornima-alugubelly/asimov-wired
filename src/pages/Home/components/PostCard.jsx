@@ -22,18 +22,26 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useColorToggler } from "../../../hooks/useColorToggler";
 import { useState } from "react";
-import { deletePost, editPost } from "../../../reducers/postSlice";
+import {
+	deletePost,
+	dislikePost,
+	editPost,
+	likePost,
+} from "../../../reducers/postSlice";
 import { postCardStyle, flexSpaceBetween } from "../../../styles";
+import { checkUserPresent } from "../../../helpers/checkUserPresent";
 
 export const PostCard = ({ postDetails }) => {
 	const dispatch = useDispatch();
 	const [isEditing, setIsEditing] = useState(false);
 	const [postEdited, setPostEdited] = useState({ ...postDetails });
 	const {
-		user: { firstName, lastName, username: currUser },
+		user: { firstName, lastName, username: currUser, id: userId },
 		token,
 	} = useSelector((state) => state.auth);
 	const { id, _id, content, likes, username, image } = postDetails;
+	console.log("userId", userId);
+	// console.log(likes, likes.likedBy, checkUserPresent(userId, likes.likedBy));
 	const colorToggler = useColorToggler();
 
 	const saveHandler = () => {
@@ -43,6 +51,13 @@ export const PostCard = ({ postDetails }) => {
 
 	const deleteHandler = () => {
 		dispatch(deletePost({ token, postId: _id }));
+	};
+
+	const likeHandler = () => {
+		dispatch(likePost({ token, postId: _id }));
+	};
+	const dislikeHandler = () => {
+		dispatch(dislikePost({ token, postId: _id }));
 	};
 
 	return (
@@ -115,10 +130,20 @@ export const PostCard = ({ postDetails }) => {
 				</Box>
 			)}
 			<Box>
-				<IconButton
-					icon={<AiFillHeart className="icon-btn" />}
-					variant="iconButton"
-				/>
+				{checkUserPresent(userId, likes?.likedBy) ? (
+					<IconButton
+						icon={<AiFillHeart className="icon-btn" />}
+						variant="iconButton"
+						onClick={dislikeHandler}
+					/>
+				) : (
+					<IconButton
+						icon={<AiOutlineHeart className="icon-btn" />}
+						variant="iconButton"
+						onClick={likeHandler}
+					/>
+				)}
+
 				<Text color={colorToggler(400)}>Liked by {likes.likeCount} people</Text>
 			</Box>
 		</VStack>
