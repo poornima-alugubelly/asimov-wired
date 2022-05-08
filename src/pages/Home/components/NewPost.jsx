@@ -21,7 +21,8 @@ export const NewPost = () => {
 	const dispatch = useDispatch();
 	const { token } = useSelector((state) => state.auth);
 	const submitHandler = () => {
-		dispatch(createPost({ token, content }));
+		dispatch(createPost({ token, postData: { content } }));
+		setPostContent("");
 	};
 	return (
 		<VStack {...postCardStyle}>

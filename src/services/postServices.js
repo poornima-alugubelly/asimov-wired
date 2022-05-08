@@ -19,10 +19,10 @@ export const deletePostService = async (token, postId) => {
 	);
 };
 
-export const createPostService = async (token, content) => {
+export const createPostService = async (token, postData) => {
 	return await axios.post(
-		`/api/posts/${postId}`,
-		{ content },
+		"/api/posts",
+		{ postData },
 		{ headers: { authorization: token } }
 	);
 };

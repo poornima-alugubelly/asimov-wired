@@ -42,9 +42,10 @@ export const deletePost = createAsyncThunk(
 
 export const createPost = createAsyncThunk(
 	"posts/createPost",
-	async ({ token, content }) => {
+	async ({ token, postData }) => {
 		try {
-			const response = await createPostService(token, content);
+			const response = await createPostService(token, postData);
+			console.log(response.data.posts);
 			return response.data.posts;
 		} catch (error) {
 			console.log(error.response.data);
