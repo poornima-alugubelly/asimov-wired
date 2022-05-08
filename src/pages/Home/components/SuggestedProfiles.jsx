@@ -8,7 +8,8 @@ import {
 	Box,
 	Center,
 } from "@chakra-ui/react";
-import { useColorToggler } from "../../hooks/useColorToggler";
+import { useColorToggler } from "../../../hooks/useColorToggler";
+
 export const SuggestedProfiles = () => {
 	const colorToggler = useColorToggler();
 	return (
