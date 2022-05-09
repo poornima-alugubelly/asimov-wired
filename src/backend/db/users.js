@@ -15,6 +15,8 @@ export const users = [
 		password: "adarshBalika123",
 		createdAt: formatDate(),
 		updatedAt: formatDate(),
+		bio: "I am the first user",
+		portfolio: "https://adarshbalika.netlify.app/",
 	},
 	{
 		_id: uuid(),

@@ -13,26 +13,32 @@ import {
 import { useState } from "react";
 import { AiOutlinePicture } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { createPost } from "../../features";
 import { postCard, flexSpaceBetween } from "../../styles";
 
 export const NewPost = () => {
 	const [content, setPostContent] = useState("");
 	const dispatch = useDispatch();
-	const { token } = useSelector((state) => state.auth);
+	const {
+		token,
+		user: { firstName, lastName, username },
+	} = useSelector((state) => state.auth);
 	const submitHandler = () => {
 		dispatch(createPost({ token, postData: { content } }));
 		setPostContent("");
 	};
 	return (
 		<VStack {...postCard}>
-			<HStack spacing="3">
-				<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-				<Box>
-					<Text>Some fancy cringey name</Text>
-					<Text color="gray">@username</Text>
-				</Box>
-			</HStack>
+			<Link to={`/profile/${username}`}>
+				<HStack spacing="3">
+					<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+					<Box>
+						<Text>{`${firstName} ${lastName}`}</Text>
+						<Text color="gray">{`@${username}`}</Text>
+					</Box>
+				</HStack>
+			</Link>
 			<Textarea
 				placeholder="Whats happening?"
 				height="24"

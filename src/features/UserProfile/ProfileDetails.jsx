@@ -14,9 +14,30 @@ import {
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { BsLink45Deg } from "react-icons/bs";
 import { flexSpaceBetween, flexCenter } from "../../styles";
+import { EditProfileForm } from "./EditProfileForm";
+import { useNavigate } from "react-router-dom";
 import { useColorToggler } from "../../hooks/useColorToggler";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../features";
 
-export const ProfileDetails = () => {
+export const ProfileDetails = ({ user, userPostsLength }) => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const {
+		firstName,
+		lastName,
+		username: currUserName,
+		bookmarks,
+		followers,
+		following,
+		bio,
+		portfolio,
+	} = user;
+
+	const {
+		user: { username },
+	} = useSelector((state) => state.auth);
+
 	return (
 		<Stack spacing="4" w="90%" direction={["column", "row"]} py="4">
 			<Avatar
@@ -26,34 +47,50 @@ export const ProfileDetails = () => {
 			/>
 			<Box>
 				<Flex {...flexSpaceBetween}>
-					<Box>
-						<Text fontSize="2xl">Admin</Text>
-						<Text color="gray">@username</Text>
+					<Box pr="2">
+						<Text fontSize="2xl">{`${firstName} ${lastName}`}</Text>
+						<Text color="gray">{`@${currUserName}`}</Text>
 					</Box>
 					<Box>
 						<HStack>
-							<Button variant="outline">Edit Profile</Button>
-							<IconButton
-								icon={<RiLogoutCircleRLine />}
-								fontSize="2xl"
-								color="gray"
-								variant="iconButton"
-							/>
+							{username === currUserName ? (
+								<>
+									<EditProfileForm />
+									<IconButton
+										icon={<RiLogoutCircleRLine />}
+										fontSize="2xl"
+										color="gray"
+										variant="iconButton"
+										onClick={() => {
+											dispatch(logout());
+											navigate("/");
+											localStorage.removeItem("tokenASM");
+											localStorage.removeItem(
+												localStorage.getItem("AsimovWUser")
+											);
+										}}
+									/>
+								</>
+							) : (
+								<Button>follow</Button>
+							)}
 						</HStack>
 					</Box>
 				</Flex>
-				<Text>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, nisi.
-				</Text>
-				<Flex justifyContent="space-between">
-					<Text>10 Posts</Text>
-					<Text>5 followers</Text>
-					<Text>15 following</Text>
+				<Text>{bio}</Text>
+				<Flex justifyContent="space-between" minW="80">
+					<Text>{`${userPostsLength} Post${
+						userPostsLength === 1 ? "" : "s"
+					}`}</Text>
+					<Text>{`${followers.length} followers`}</Text>
+					<Text>{`${following.length} following`}</Text>
 				</Flex>
-				<Flex align="center">
-					<Icon as={BsLink45Deg} />
-					<Link href="#">links can live inline with text</Link>
-				</Flex>
+				{portfolio && (
+					<Flex align="center">
+						<Icon as={BsLink45Deg} />
+						<Link href="#">{portfolio}</Link>
+					</Flex>
+				)}
 			</Box>
 		</Stack>
 	);

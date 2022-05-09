@@ -7,7 +7,7 @@ export const AppRoutes = () => {
 		<Routes>
 			<Route path="/" element={<PrivateRoutes />}>
 				<Route path="/" element={<Home />} />
-				<Route path="/profile" element={<UserProfile />} />
+				<Route path="/profile/:username" element={<UserProfile />} />
 			</Route>
 
 			<Route path="/login" element={<Login />} />

@@ -19,7 +19,6 @@ export const Home = () => {
 	const dispatch = useDispatch();
 	const { allPosts } = useSelector((state) => state.posts);
 	useEffect(() => dispatch(getPosts()), []);
-	console.log(allPosts);
 	return (
 		<Box {...mainContainer}>
 			<Grid {...mainGrid}>
@@ -37,6 +36,7 @@ export const Home = () => {
 						<Box
 							borderBottom={"1px solid"}
 							borderBottomColor={colorToggler(600)}
+							key={post._id}
 						>
 							<Center>
 								<PostCard postDetails={post} />
