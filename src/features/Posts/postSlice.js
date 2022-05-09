@@ -7,7 +7,7 @@ import {
 	createPostService,
 	likePostService,
 	dislikePostService,
-} from "../services/postServices";
+} from "../../services/postServices";
 
 export const getPosts = createAsyncThunk("posts/getPosts", async () => {
 	try {
@@ -116,4 +116,4 @@ const postSlice = createSlice({
 	},
 });
 
-export default postSlice.reducer;
+export const postReducer = postSlice.reducer;

@@ -13,8 +13,8 @@ import {
 import { useState } from "react";
 import { AiOutlinePicture } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../../../reducers/postSlice";
-import { postCardStyle, flexSpaceBetween } from "../../../styles";
+import { createPost } from "../../features";
+import { postCard, flexSpaceBetween } from "../../styles";
 
 export const NewPost = () => {
 	const [content, setPostContent] = useState("");
@@ -25,7 +25,7 @@ export const NewPost = () => {
 		setPostContent("");
 	};
 	return (
-		<VStack {...postCardStyle}>
+		<VStack {...postCard}>
 			<HStack spacing="3">
 				<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
 				<Box>

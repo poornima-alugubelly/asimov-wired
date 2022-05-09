@@ -20,16 +20,11 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { useColorToggler } from "../../../hooks/useColorToggler";
+import { useColorToggler } from "../../hooks/useColorToggler";
 import { useState } from "react";
-import {
-	deletePost,
-	dislikePost,
-	editPost,
-	likePost,
-} from "../../../reducers/postSlice";
-import { postCardStyle, flexSpaceBetween } from "../../../styles";
-import { checkUserPresent } from "../../../helpers/checkUserPresent";
+import { deletePost, dislikePost, editPost, likePost } from "../../features";
+import { postCard, flexSpaceBetween } from "../../styles";
+import { checkUserPresent } from "../../helpers/checkUserPresent";
 
 export const PostCard = ({ postDetails }) => {
 	const dispatch = useDispatch();
@@ -61,7 +56,7 @@ export const PostCard = ({ postDetails }) => {
 	};
 
 	return (
-		<VStack {...postCardStyle}>
+		<VStack {...postCard}>
 			<Flex {...flexSpaceBetween}>
 				<HStack spacing="3">
 					<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />

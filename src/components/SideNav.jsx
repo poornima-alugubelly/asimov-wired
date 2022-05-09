@@ -26,7 +26,7 @@ export const SideNav = () => {
 			</ListItem>
 
 			<ListItem fontSize="24">
-				<NavLink style={getActiveStyle} to="/login">
+				<NavLink style={getActiveStyle} to="/profile">
 					<Flex align="center" gap={4}>
 						<ListIcon as={CgProfile} color="brand.400" className="icon-btn" />
 						<span>Profile</span>
