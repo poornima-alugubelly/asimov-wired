@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginService, signupService } from "../services/authServices";
+import { loginService, signupService } from "../../services/authServices";
 
 export const loginUser = createAsyncThunk(
 	"auth/loginUser",
@@ -37,7 +37,12 @@ const initialState = {
 const authSlice = createSlice({
 	name: "auth",
 	initialState,
-	reducers: {},
+	reducers: {
+		logout: (state) => {
+			state.token = "";
+			state.user = null;
+		},
+	},
 	extraReducers: {
 		[loginUser.pending]: (state) => {
 			state.authStatus = "loading";
@@ -71,5 +76,5 @@ const authSlice = createSlice({
 		},
 	},
 });
-
-export default authSlice.reducer;
+export const { logout } = authSlice.actions;
+export const authReducer = authSlice.reducer;

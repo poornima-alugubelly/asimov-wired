@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { usePwdToggler } from "../../hooks/usePwdToggler";
-import { loginUser } from "../../reducers/authSlice";
+import { loginUser } from "../../features";
 
 export const Login = () => {
 	const colorToggler = useColorToggler();

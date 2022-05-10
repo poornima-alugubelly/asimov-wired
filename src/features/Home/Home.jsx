@@ -1,37 +1,32 @@
-import { Grid, GridItem, Center, Divider, Box } from "@chakra-ui/react";
+import { Grid, GridItem, Center, Box } from "@chakra-ui/react";
 import { SideNav } from "../../components";
-import { PostCard } from "./components/PostCard";
+import { PostCard } from "../Posts/PostCard";
 import { SuggestedProfiles } from "./components/SuggestedProfiles";
 import { useColorToggler } from "../../hooks/useColorToggler";
-import { getPosts } from "../../reducers/postSlice";
+import { getPosts } from "../../features";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NewPost } from "./components/NewPost";
+import { NewPost } from "../Posts/NewPost";
+import {
+	mainContainer,
+	mainGrid,
+	sideNavGrid,
+	postsGridContainer,
+} from "../../styles";
 
 export const Home = () => {
 	const colorToggler = useColorToggler();
 	const dispatch = useDispatch();
 	const { allPosts } = useSelector((state) => state.posts);
 	useEffect(() => dispatch(getPosts()), []);
-	console.log(allPosts);
 	return (
-		<Box maxW="90vw" pt="20" pb="20" m="auto">
-			<Grid
-				templateColumns={["1fr", "1fr", "repeat(4,1fr)", "repeat(5, 1fr)"]}
-				gap={4}
-				h="full"
-			>
-				<GridItem colSpan={1} display={["none", "none", "block", "block"]}>
+		<Box {...mainContainer}>
+			<Grid {...mainGrid}>
+				<GridItem {...sideNavGrid}>
 					<SideNav />
 				</GridItem>
 
-				<GridItem
-					colStart={2}
-					colSpan={3}
-					borderRight="1px solid"
-					borderLeft="1px solid"
-					borderColor={colorToggler(400)}
-				>
+				<GridItem {...postsGridContainer} borderColor={colorToggler(400)}>
 					<Box borderBottom={"1px solid"} borderBottomColor={colorToggler(600)}>
 						<Center>
 							<NewPost />
@@ -41,6 +36,7 @@ export const Home = () => {
 						<Box
 							borderBottom={"1px solid"}
 							borderBottomColor={colorToggler(600)}
+							key={post._id}
 						>
 							<Center>
 								<PostCard postDetails={post} />

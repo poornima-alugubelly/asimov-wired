@@ -1,0 +1,141 @@
+import {
+	Button,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	useDisclosure,
+	Box,
+	Icon,
+	Text,
+	FormControl,
+	FormLabel,
+	Input,
+	Avatar,
+	AvatarBadge,
+	VStack,
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { BsFillCameraFill } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { useColorToggler } from "../../hooks/useColorToggler";
+import { updateUser, useProfile } from "../../features";
+
+export const EditProfileForm = () => {
+	const dispatch = useDispatch();
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const colorToggler = useColorToggler();
+	const { userToDisplay } = useProfile();
+	const { username, firstName, lastName, bio, portfolio } = userToDisplay;
+	const { token } = useSelector((state) => state.auth);
+	const [formVal, setFormVal] = useState({ ...userToDisplay });
+
+	const updateHandler = () => {
+		dispatch(updateUser({ formVal, token }));
+	};
+	return (
+		<Box>
+			<Button onClick={onOpen} variant="outline">
+				Edit Profile
+			</Button>
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent
+					bg={colorToggler(700)}
+					border="1px solid"
+					borderColor={colorToggler(400)}
+				>
+					<ModalHeader>Modal Title</ModalHeader>
+					<ModalCloseButton
+						bg="transparent"
+						_focus={{
+							boxShadow: "none",
+						}}
+					/>
+					<ModalBody>
+						<VStack spacing="4">
+							<FormControl>
+								<Text>Avatar</Text>
+
+								<Avatar
+									src="https://bit.ly/dan-abramov"
+									alt="profile-image"
+									size="md"
+									marginRight="2"
+								>
+									<AvatarBadge boxSize="1.5em" border="0">
+										<FormControl>
+											<FormLabel
+												cursor="pointer"
+												position="absolute"
+												right="-10px"
+												bottom="0"
+											>
+												<Icon as={BsFillCameraFill} />
+											</FormLabel>
+											<Input
+												type="file"
+												visibility="hidden"
+												accept="image/*"
+												// onChange={(e) => uploadImage(e.target.files[0])}
+											/>
+										</FormControl>
+									</AvatarBadge>
+								</Avatar>
+							</FormControl>
+							<FormControl>
+								<FormLabel>Username:</FormLabel>
+								<Input variant="unstyled" isReadOnly value={username} />
+							</FormControl>
+							<FormControl>
+								<FormLabel>Name:</FormLabel>
+								<Input
+									value={`${firstName} ${lastName}`}
+									variant="unstyled"
+									isReadOnly
+								/>
+							</FormControl>
+
+							<FormControl>
+								<FormLabel>Bio:</FormLabel>
+								<Input
+									value={formVal.bio}
+									onChange={(e) =>
+										setFormVal((prev) => ({ ...prev, bio: e.target.value }))
+									}
+								/>
+							</FormControl>
+							<FormControl>
+								<FormLabel>Website:</FormLabel>
+								<Input
+									value={formVal.portfolio}
+									onChange={(e) =>
+										setFormVal((prev) => ({
+											...prev,
+											portfolio: e.target.value,
+										}))
+									}
+								/>
+							</FormControl>
+						</VStack>
+					</ModalBody>
+
+					<ModalFooter>
+						<Button
+							mr={3}
+							onClick={() => {
+								onClose();
+								updateHandler();
+							}}
+						>
+							Update
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+		</Box>
+	);
+};

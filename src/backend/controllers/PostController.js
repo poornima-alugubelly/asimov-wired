@@ -66,6 +66,7 @@ export const getAllUserPostsHandler = function (schema, request) {
 export const createPostHandler = function (schema, request) {
 	console.log("hwre");
 	const user = requiresAuth.call(this, request);
+	const userData = schema.users.findBy({ username: user.username }).attrs;
 	try {
 		if (!user) {
 			return new Response(
@@ -88,6 +89,8 @@ export const createPostHandler = function (schema, request) {
 				dislikedBy: [],
 			},
 			username: user.username,
+			firstName: userData.firstName,
+			lastName: userData.lastName,
 			createdAt: formatDate(),
 			updatedAt: formatDate(),
 		};

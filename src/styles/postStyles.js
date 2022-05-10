@@ -1,5 +1,4 @@
-export const postCardStyle = {
-	// w="90%" align="start" spacing="4" paddingTop={4} paddingBottom={4}
+export const postCard = {
 	width: "90%",
 	align: "start",
 	spacing: "4",

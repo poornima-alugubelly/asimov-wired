@@ -20,28 +20,26 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { useColorToggler } from "../../../hooks/useColorToggler";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useColorToggler } from "../../hooks/useColorToggler";
 import { useState } from "react";
-import {
-	deletePost,
-	dislikePost,
-	editPost,
-	likePost,
-} from "../../../reducers/postSlice";
-import { postCardStyle, flexSpaceBetween } from "../../../styles";
-import { checkUserPresent } from "../../../helpers/checkUserPresent";
+import { deletePost, dislikePost, editPost, likePost } from "../../features";
+import { postCard, flexSpaceBetween } from "../../styles";
+import { checkUserPresent } from "../../helpers/checkUserPresent";
 
 export const PostCard = ({ postDetails }) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [isEditing, setIsEditing] = useState(false);
 	const [postEdited, setPostEdited] = useState({ ...postDetails });
 	const {
-		user: { firstName, lastName, username: currUser, id: userId },
+		user: { username: currUser, id: userId },
 		token,
 	} = useSelector((state) => state.auth);
-	const { id, _id, content, likes, username, image } = postDetails;
-	console.log("userId", userId);
-	// console.log(likes, likes.likedBy, checkUserPresent(userId, likes.likedBy));
+	const { id, _id, content, likes, username, image, firstName, lastName } =
+		postDetails;
+
 	const colorToggler = useColorToggler();
 
 	const saveHandler = () => {
@@ -61,16 +59,19 @@ export const PostCard = ({ postDetails }) => {
 	};
 
 	return (
-		<VStack {...postCardStyle}>
+		<VStack {...postCard}>
 			<Flex {...flexSpaceBetween}>
-				<HStack spacing="3">
-					<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-					<Box>
-						<Text>{`${firstName} ${lastName}`}</Text>
-						<Text color="gray">{`@${username}`}</Text>
-					</Box>
-				</HStack>
-				{currUser === username && (
+				<Link to={`/profile/${username}`}>
+					<HStack spacing="3" onClick={() => navigate()}>
+						<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+						<Box>
+							<Text>{`${firstName} ${lastName}`}</Text>
+							<Text color="gray">{`@${username}`}</Text>
+						</Box>
+					</HStack>
+				</Link>
+
+				{username === currUser && (
 					<Menu>
 						<MenuButton
 							as={IconButton}
@@ -111,7 +112,7 @@ export const PostCard = ({ postDetails }) => {
 					></Textarea>{" "}
 					<Box>
 						<Button onClick={saveHandler}>Save</Button>{" "}
-						<Button variant={"outline"} onClick={setIsEditing(false)}>
+						<Button variant={"outline"} onClick={() => setIsEditing(false)}>
 							Cancel
 						</Button>
 					</Box>
