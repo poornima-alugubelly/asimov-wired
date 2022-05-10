@@ -31,7 +31,11 @@ export const SideNav = () => {
 			</ListItem>
 
 			<ListItem fontSize="24">
-				<NavLink style={getActiveStyle} to={`/profile/${username}`}>
+				<NavLink
+					style={getActiveStyle}
+					to={`/profile/${username}`}
+					state={{ pageToShow: "profile" }}
+				>
 					<Flex align="center" gap={4}>
 						<ListIcon as={CgProfile} color="brand.400" className="icon-btn" />
 						<span>Profile</span>
@@ -39,14 +43,18 @@ export const SideNav = () => {
 				</NavLink>
 			</ListItem>
 			<ListItem fontSize="24">
-				<NavLink style={getActiveStyle} to="/notifications">
+				<NavLink
+					style={getActiveStyle}
+					to="/bookmarks"
+					state={{ pageToShow: "bookmarks" }}
+				>
 					<Flex align="center" gap={4}>
 						<ListIcon
 							as={RiNotification2Line}
 							color="brand.400"
 							className="icon-btn"
 						/>
-						<span>Notification</span>
+						<span>Bookmarks</span>
 					</Flex>
 				</NavLink>
 			</ListItem>

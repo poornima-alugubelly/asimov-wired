@@ -8,3 +8,4 @@ export { Login } from "./Auth/Login";
 export { SignUp } from "./Auth/SignUp";
 export { UserProfile } from "./UserProfile/UserProfile";
 export { ProfileDetails } from "./UserProfile/ProfileDetails";
+export { Bookmarks } from "./Posts/Bookmarks";

@@ -9,10 +9,25 @@ export const getUserPostService = async (username) => {
 };
 
 export const updateUserService = async (userData, token) => {
-	console.log(userData, token);
 	return await axios.post(
 		"/api/users/edit",
 		{ userData },
+		{ headers: { authorization: token } }
+	);
+};
+
+export const followUserService = async (followUserId, token) => {
+	return await axios.post(
+		`/api/users/follow/${followUserId}`,
+		{},
+		{ headers: { authorization: token } }
+	);
+};
+
+export const unfollowUserService = async (followUserId, token) => {
+	return await axios.post(
+		`/api/users/unfollow/${followUserId}`,
+		{},
 		{ headers: { authorization: token } }
 	);
 };

@@ -42,3 +42,27 @@ export const dislikePostService = async (token, postId) => {
 		{ headers: { authorization: token } }
 	);
 };
+
+export const getAllBookmarkService = async (token) => {
+	return await axios.get(
+		"/api/users/bookmark",
+
+		{ headers: { authorization: token } }
+	);
+};
+
+export const addBookmarkService = async (postId, token) => {
+	return await axios.post(
+		`/api/users/bookmark/${postId}`,
+		{},
+		{ headers: { authorization: token } }
+	);
+};
+
+export const removeBookmarkService = async (postId, token) => {
+	return await axios.post(
+		`/api/users/remove-bookmark/${postId}`,
+		{},
+		{ headers: { authorization: token } }
+	);
+};

@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../features";
+import { checkItemPresent } from "../../helpers/checkItemPresent";
+import { followUser, unfollowUser } from "./userProfileSlice";
 
 export const ProfileDetails = ({ user, userPostsLength }) => {
 	const dispatch = useDispatch();
@@ -32,10 +34,12 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 		following,
 		bio,
 		portfolio,
+		_id: followUserId,
 	} = user;
 
 	const {
-		user: { username },
+		user: { username, id: userId },
+		token,
 	} = useSelector((state) => state.auth);
 
 	return (
@@ -71,8 +75,20 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 										}}
 									/>
 								</>
+							) : checkItemPresent(userId, followers) ? (
+								<Button
+									onClick={() =>
+										dispatch(unfollowUser({ followUserId, token }))
+									}
+								>
+									unfollow
+								</Button>
 							) : (
-								<Button>follow</Button>
+								<Button
+									onClick={() => dispatch(followUser({ followUserId, token }))}
+								>
+									follow
+								</Button>
 							)}
 						</HStack>
 					</Box>

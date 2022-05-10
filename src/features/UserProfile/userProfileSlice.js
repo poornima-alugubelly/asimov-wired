@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+	followUserService,
 	getUserPostService,
 	getUserService,
+	unfollowUserService,
 	updateUserService,
 } from "../../services/userServices";
 import { useSelector } from "react-redux";
@@ -23,6 +25,29 @@ export const getUserPost = createAsyncThunk(
 	async ({ username }) => {
 		try {
 			const response = await getUserPostService(username);
+			return response.data;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+);
+
+export const followUser = createAsyncThunk(
+	"userProfile/followUser",
+	async ({ followUserId, token }) => {
+		try {
+			const response = await followUserService(followUserId, token);
+			return response.data;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+);
+export const unfollowUser = createAsyncThunk(
+	"userProfile/unfollowUser",
+	async ({ followUserId, token }) => {
+		try {
+			const response = await unfollowUserService(followUserId, token);
 			return response.data;
 		} catch (error) {
 			console.log(error);
@@ -63,6 +88,12 @@ const userProfileSlice = createSlice({
 		},
 		[updateUser.fulfilled]: (state, { payload }) => {
 			state.userToDisplay = payload.user;
+		},
+		[followUser.fulfilled]: (state, { payload }) => {
+			state.userToDisplay = payload.followUser;
+		},
+		[unfollowUser.fulfilled]: (state, { payload }) => {
+			state.userToDisplay = payload.followUser;
 		},
 	},
 });
