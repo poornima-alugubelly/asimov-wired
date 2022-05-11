@@ -126,12 +126,23 @@ const initialState = {
 	userPosts: [],
 	allPosts: [],
 	bookmarkedPosts: [],
+	sortBy: "default",
+	openLikesList: false,
+	likesList: [],
 };
 
 const postSlice = createSlice({
 	name: "posts",
 	initialState,
-	reducers: {},
+	reducers: {
+		sortByValue: (state, action) => {
+			state.sortBy = action.payload;
+		},
+		setOpenLikesList: (state, action) => {
+			state.openLikesList = action.payload.likesListState;
+			state.likesList = action.payload.likesListVal;
+		},
+	},
 	extraReducers: {
 		[getPosts.fulfilled]: (state, { payload }) => {
 			state.allPosts = payload;
@@ -169,4 +180,5 @@ const postSlice = createSlice({
 	},
 });
 
+export const { sortByValue, setOpenLikesList } = postSlice.actions;
 export const postReducer = postSlice.reducer;

@@ -3,7 +3,7 @@ import { SideNav } from "../../components";
 import { PostCard } from "../Posts/PostCard";
 import { SuggestedProfiles } from "./components/SuggestedProfiles";
 import { useColorToggler } from "../../hooks/useColorToggler";
-import { getPosts } from "../../features";
+import { getPosts, AllPosts } from "../../features";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NewPost } from "../Posts/NewPost";
@@ -16,6 +16,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { UserProfile } from "../UserProfile/UserProfile";
 import { Bookmarks } from "../Posts/Bookmarks";
+import { SortPosts } from "./components/SortPosts";
 
 export const Home = () => {
 	const colorToggler = useColorToggler();
@@ -44,18 +45,7 @@ export const Home = () => {
 										<NewPost />
 									</Center>
 								</Box>
-								{allPosts?.map((post) => (
-									<Box
-										borderBottom={"1px solid"}
-										borderBottomColor={colorToggler(600)}
-										key={post._id}
-									>
-										<Center>
-											<PostCard postDetails={post} />
-										</Center>
-										{/* <Divider orientation="horizontal" color={colorToggler(400)} /> */}
-									</Box>
-								))}
+								<AllPosts />
 							</GridItem>
 						);
 					}
@@ -65,7 +55,10 @@ export const Home = () => {
 					colSpan={1}
 					display={["none", "none", "none", "block"]}
 				>
-					<SuggestedProfiles />
+					<Box position="fixed" m="2" mt="4" pb="4" pt="2" w="100%">
+						<SortPosts />
+						<SuggestedProfiles />
+					</Box>
 				</GridItem>
 			</Grid>
 		</Box>

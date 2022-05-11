@@ -1,6 +1,7 @@
 export { Home } from "./Home/Home";
 export { NewPost } from "./Posts/NewPost";
 export { PostCard } from "./Posts/PostCard";
+export { AllPosts } from "./Posts/AllPosts";
 export * from "./Posts/postSlice";
 export * from "./Auth/authSlice";
 export * from "./UserProfile/userProfileSlice";
@@ -9,3 +10,5 @@ export { SignUp } from "./Auth/SignUp";
 export { UserProfile } from "./UserProfile/UserProfile";
 export { ProfileDetails } from "./UserProfile/ProfileDetails";
 export { Bookmarks } from "./Posts/Bookmarks";
+export { UserHorizontalCard } from "./UserProfile/UserHorizontalCard";
+export { LikesListModal } from "./Posts/LikesListModal";

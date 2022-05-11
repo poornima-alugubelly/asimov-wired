@@ -19,8 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../features";
-import { checkItemPresent } from "../../helpers/checkItemPresent";
 import { followUser, unfollowUser } from "./userProfileSlice";
+import { checkUserPresent } from "../../helpers/checkUserPresent";
 
 export const ProfileDetails = ({ user, userPostsLength }) => {
 	const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 		firstName,
 		lastName,
 		username: currUserName,
-		bookmarks,
+		avatarURL,
 		followers,
 		following,
 		bio,
@@ -44,11 +44,7 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 
 	return (
 		<Stack spacing="4" w="90%" direction={["column", "row"]} py="4">
-			<Avatar
-				name="Oshigaki Kisame"
-				src="https://bit.ly/dan-abramov"
-				size="2xl"
-			/>
+			<Avatar name={`${firstName} ${lastName}`} src={avatarURL} size="2xl" />
 			<Box>
 				<Flex {...flexSpaceBetween}>
 					<Box pr="2">
@@ -75,7 +71,7 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 										}}
 									/>
 								</>
-							) : checkItemPresent(userId, followers) ? (
+							) : checkUserPresent(username, followers) ? (
 								<Button
 									onClick={() =>
 										dispatch(unfollowUser({ followUserId, token }))

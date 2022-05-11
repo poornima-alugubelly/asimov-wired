@@ -13,12 +13,15 @@ export const UserProfile = () => {
 	const params = useParams();
 	const { username } = params;
 	useEffect(() => {
-		dispatch(getUser({ username }));
-		dispatch(getUserPost({ username }));
+		if (dispatch) {
+			dispatch(getUser({ username }));
+			dispatch(getUserPost({ username }));
+		}
+
 		return () => {
 			dispatch(resetProfile());
 		};
-	}, [username]);
+	}, [username, dispatch]);
 	const { userToDisplay, userPosts } = useProfile();
 
 	return (
@@ -37,10 +40,10 @@ export const UserProfile = () => {
 				<Box
 					borderBottom={"1px solid"}
 					borderBottomColor={colorToggler(600)}
-					key={post._id}
+					key={post.id}
 				>
 					<Center>
-						<PostCard postDetails={post} />
+						<PostCard postDetails={post} key={post.id} />
 					</Center>
 					{/* <Divider orientation="horizontal" color={colorToggler(400)} /> */}
 				</Box>

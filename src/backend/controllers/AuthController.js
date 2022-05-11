@@ -50,6 +50,7 @@ export const signupHandler = function (schema, request) {
 			bookmarks: [],
 			bio: "",
 			portfolio: "",
+			avatarURL: "",
 		};
 		const createdUser = schema.users.create(newUser);
 

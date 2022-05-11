@@ -19,6 +19,7 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { BsFillCameraFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useColorToggler } from "../../hooks/useColorToggler";
@@ -29,12 +30,37 @@ export const EditProfileForm = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const colorToggler = useColorToggler();
 	const { userToDisplay } = useProfile();
-	const { username, firstName, lastName, bio, portfolio } = userToDisplay;
+	const { username, firstName, lastName, bio, portfolio, avatarURL } =
+		userToDisplay;
 	const { token } = useSelector((state) => state.auth);
 	const [formVal, setFormVal] = useState({ ...userToDisplay });
-
+	const uploadImage = async (image) => {
+		if (Math.round(image.size / 1024000) > 2)
+			toast.error("File size should be less than 2MB");
+		else {
+			const data = new FormData();
+			data.append("file", image);
+			data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_API_KEY);
+			const requestOptions = {
+				method: "POST",
+				body: data,
+			};
+			await fetch(
+				"https://api.cloudinary.com/v1_1/dodkrr6ce/image/upload",
+				requestOptions
+			)
+				.then((response) => response.json())
+				.then((json) => {
+					setFormVal((prev) => ({ ...prev, avatarURL: json.url }));
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		}
+	};
 	const updateHandler = () => {
 		dispatch(updateUser({ formVal, token }));
+		toast.success("Profile updated!");
 	};
 	return (
 		<Box>
@@ -61,10 +87,11 @@ export const EditProfileForm = () => {
 								<Text>Avatar</Text>
 
 								<Avatar
-									src="https://bit.ly/dan-abramov"
+									src={formVal.avatarURL}
 									alt="profile-image"
 									size="md"
 									marginRight="2"
+									name={`${firstName} ${lastName}`}
 								>
 									<AvatarBadge boxSize="1.5em" border="0">
 										<FormControl>
@@ -80,7 +107,7 @@ export const EditProfileForm = () => {
 												type="file"
 												visibility="hidden"
 												accept="image/*"
-												// onChange={(e) => uploadImage(e.target.files[0])}
+												onChange={(e) => uploadImage(e.target.files[0])}
 											/>
 										</FormControl>
 									</AvatarBadge>

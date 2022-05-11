@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { usePwdToggler } from "../../hooks/usePwdToggler";
-import { signupUser } from "../../features";
+import { signupUser } from "./authSlice";
 
 export const SignUp = () => {
 	const colorToggler = useColorToggler();
@@ -37,7 +37,6 @@ export const SignUp = () => {
 
 	const signUpHandler = async (e, formVal) => {
 		e.preventDefault();
-		// console.log(firstName, lastName, email, username, password);
 		const res = await dispatch(signupUser(formVal));
 
 		if (res?.payload.encodedToken) {

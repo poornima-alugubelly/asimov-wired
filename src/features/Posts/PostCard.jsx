@@ -14,6 +14,7 @@ import {
 	Input,
 	Textarea,
 	Button,
+	Link as ChakraLink,
 } from "@chakra-ui/react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -21,20 +22,28 @@ import { BiEdit } from "react-icons/bi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { useEffect, useState } from "react";
-import { deletePost, dislikePost, editPost, likePost } from "../../features";
+import {
+	deletePost,
+	dislikePost,
+	editPost,
+	likePost,
+	setOpenLikesList,
+	addBookmark,
+	getBookmarks,
+	removeBookmark,
+} from "./postSlice";
 import { postCard, flexSpaceBetween } from "../../styles";
 import { checkItemPresent } from "../../helpers/checkItemPresent";
-import { useLocation } from "react-router-dom";
-import { addBookmark, getBookmarks, removeBookmark } from "./postSlice";
 
 export const PostCard = ({ postDetails }) => {
 	const dispatch = useDispatch();
 	useEffect(() => getBookmarks(), []);
 	const { bookmarkedPosts } = useSelector((state) => state.posts);
 	const [isEditing, setIsEditing] = useState(false);
+
 	const [postEdited, setPostEdited] = useState({ ...postDetails });
 	let location = useLocation();
 	let currPage = location.state?.pageToShow;
@@ -51,6 +60,8 @@ export const PostCard = ({ postDetails }) => {
 		image,
 		firstName,
 		lastName,
+		createdAt,
+		avatarURL,
 	} = postDetails;
 
 	const colorToggler = useColorToggler();
@@ -64,12 +75,16 @@ export const PostCard = ({ postDetails }) => {
 		<VStack {...postCard}>
 			<Flex {...flexSpaceBetween}>
 				<Link to={`/profile/${username}`} state={{ pageToShow: "profile" }}>
-					<HStack spacing="3">
-						<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-						<Box>
+					<HStack spacing="2">
+						<Avatar name="Dan Abrahmov" src={avatarURL} />
+						<HStack spacing="1">
 							<Text>{`${firstName} ${lastName}`}</Text>
 							<Text color="gray">{`@${username}`}</Text>
-						</Box>
+						</HStack>
+						<Text color="gray">•</Text>{" "}
+						<Text color="gray">{`${new Date(
+							createdAt
+						).toLocaleDateString()}`}</Text>
 					</HStack>
 				</Link>
 
@@ -162,8 +177,19 @@ export const PostCard = ({ postDetails }) => {
 						/>
 					)}
 				</Box>
-
-				<Text color={colorToggler(400)}>Liked by {likes.likeCount} people</Text>
+				<ChakraLink
+					color={colorToggler(400)}
+					onClick={() =>
+						dispatch(
+							setOpenLikesList({
+								likesListState: true,
+								likesListVal: likes?.likedBy,
+							})
+						)
+					}
+				>
+					Liked by {likes.likeCount} people
+				</ChakraLink>
 			</Box>
 		</VStack>
 	);
