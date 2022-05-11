@@ -43,6 +43,7 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 		user: { username, id: userId },
 		token,
 	} = useSelector((state) => state.auth);
+
 	const [openFollowersList, setOpenFollowersList] = useState(false);
 	const [openFollowingList, setOpenFollowingList] = useState(false);
 
@@ -106,19 +107,23 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 					<Link
 						onClick={() => setOpenFollowingList(true)}
 					>{`${following.length} following`}</Link>
+
+					{openFollowersList && (
+						<UsersListModal
+							usersList={followers}
+							setClose={setOpenFollowersList}
+							modalTitle="FOLLOWERS"
+						/>
+					)}
+					{openFollowingList && (
+						<UsersListModal
+							usersList={following}
+							setClose={setOpenFollowingList}
+							modalTitle="FOLLOWING"
+						/>
+					)}
 				</Flex>
-				{openFollowersList && (
-					<UsersListModal
-						usersList={followers}
-						setClose={setOpenFollowersList}
-					/>
-				)}
-				{openFollowingList && (
-					<UsersListModal
-						usersList={following}
-						setClose={setOpenFollowingList}
-					/>
-				)}
+
 				{portfolio && (
 					<Flex align="center">
 						<Icon as={BsLink45Deg} />

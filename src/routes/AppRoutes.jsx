@@ -1,5 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import { Login, SignUp, Home, UserProfile, Bookmarks } from "../features";
+import {
+	Login,
+	SignUp,
+	Home,
+	UserProfile,
+	Bookmarks,
+	Explore,
+} from "../features";
 import { PrivateRoutes } from "./PrivateRoutes";
 
 export const AppRoutes = () => {
@@ -9,6 +16,7 @@ export const AppRoutes = () => {
 				<Route path="/" element={<Home />}>
 					<Route path="/profile/:username" element={<UserProfile />} />
 					<Route path="/bookmarks" element={<Bookmarks />} />
+					<Route path="/explore" element={<Explore />} />
 				</Route>
 			</Route>
 

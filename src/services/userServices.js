@@ -1,5 +1,8 @@
 import axios from "axios";
 
+export const getAllUserService = async () => {
+	return await axios.get("/api/users");
+};
 export const getUserService = async (username) => {
 	return await axios.get(`/api/users/${username}`);
 };

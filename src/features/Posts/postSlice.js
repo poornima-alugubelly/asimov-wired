@@ -126,7 +126,7 @@ const initialState = {
 	userPosts: [],
 	allPosts: [],
 	bookmarkedPosts: [],
-	sortBy: "default",
+	sortBy: "latest",
 	openLikesList: false,
 	likesList: [],
 };

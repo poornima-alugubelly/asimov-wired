@@ -1,7 +1,7 @@
 import { Grid, GridItem, Center, Box } from "@chakra-ui/react";
 import { SideNav } from "../../components";
 import { PostCard } from "../Posts/PostCard";
-import { SuggestedProfiles } from "./components/SuggestedProfiles";
+import { SuggestedProfiles } from "../Users/SuggestedProfiles";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { getPosts, AllPosts } from "../../features";
 import { useEffect } from "react";
@@ -17,6 +17,7 @@ import { useLocation } from "react-router-dom";
 import { UserProfile } from "../UserProfile/UserProfile";
 import { Bookmarks } from "../Posts/Bookmarks";
 import { SortPosts } from "./components/SortPosts";
+import { Explore } from "../Posts/Explore";
 
 export const Home = () => {
 	const colorToggler = useColorToggler();
@@ -34,6 +35,7 @@ export const Home = () => {
 				{(() => {
 					if (currPage === "profile") return <UserProfile />;
 					else if (currPage === "bookmarks") return <Bookmarks />;
+					else if (currPage === "explore") return <Explore />;
 					else {
 						return (
 							<GridItem {...postsGridContainer} borderColor={colorToggler(400)}>

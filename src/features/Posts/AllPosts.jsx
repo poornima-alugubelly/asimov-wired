@@ -1,7 +1,7 @@
 import { Box, Center } from "@chakra-ui/react";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { getPosts, PostCard } from "../index";
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sortByDate } from "../../helpers/sortByDate";
 import { getUserFeed } from "../../helpers/getUserFeed";
@@ -12,21 +12,18 @@ export const AllPosts = () => {
 	const dispatch = useDispatch();
 	let { allPosts, sortBy } = useSelector((state) => state.posts);
 	const {
-		user: { following },
+		user: { following, username },
 	} = useSelector((state) => state.auth);
-
+	console.log("re-render");
 	if (sortBy === "trending") {
 		allPosts = getTrendingPosts(allPosts);
 	} else {
-		const userFeed = getUserFeed(allPosts, following);
+		const userFeed = getUserFeed(allPosts, following, username);
 
 		if (sortBy === "oldest") {
 			allPosts = sortByDate(userFeed, true);
-		} else if (sortBy === "newest") {
-			allPosts = sortByDate(userFeed);
 		} else {
-			console.log(userFeed);
-			allPosts = [...userFeed];
+			allPosts = sortByDate(userFeed);
 		}
 	}
 

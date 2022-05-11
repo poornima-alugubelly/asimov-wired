@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { UserHorizontalCard } from "..";
 import { useColorToggler } from "../../hooks/useColorToggler";
 
-export const UsersListModal = ({ usersList, setClose }) => {
+export const UsersListModal = ({ usersList, setClose, modalTitle }) => {
 	const { isOpen, onClose } = useDisclosure({ isOpen: true });
 	const colorToggler = useColorToggler();
 	console.log(usersList);
@@ -22,6 +22,7 @@ export const UsersListModal = ({ usersList, setClose }) => {
 				onClose;
 				setClose(false);
 			}}
+			size="xs"
 		>
 			<ModalOverlay />
 			<ModalContent
@@ -29,8 +30,9 @@ export const UsersListModal = ({ usersList, setClose }) => {
 				border="1px solid"
 				borderColor={colorToggler(400)}
 				pb="4"
+				pt="0"
 			>
-				<ModalHeader>Modal Title</ModalHeader>
+				<ModalHeader>{modalTitle}</ModalHeader>
 				<ModalCloseButton
 					bg="transparent"
 					_focus={{

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ProfileDetails, PostCard, resetProfile } from "../../features";
 import { postsGridContainer } from "../../styles";
+import { sortByDate } from "../../helpers/sortByDate";
 
 export const UserProfile = () => {
 	const colorToggler = useColorToggler();
@@ -22,7 +23,8 @@ export const UserProfile = () => {
 			dispatch(resetProfile());
 		};
 	}, [username, dispatch]);
-	const { userToDisplay, userPosts } = useProfile();
+	let { userToDisplay, userPosts } = useProfile();
+	userPosts = sortByDate(userPosts);
 
 	return (
 		<GridItem {...postsGridContainer} borderColor={colorToggler(400)}>

@@ -1,4 +1,4 @@
-import { List, ListIcon, ListItem, Flex, Link } from "@chakra-ui/react";
+import { List, ListIcon, ListItem, Flex, Link, Center } from "@chakra-ui/react";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiHash } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
@@ -6,6 +6,7 @@ import { RiNotification2Line } from "react-icons/ri";
 import { useColorToggler } from "../hooks/useColorToggler";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { NewPostModal } from "../features";
 
 export const SideNav = () => {
 	const colorToggler = useColorToggler();
@@ -26,6 +27,22 @@ export const SideNav = () => {
 							className="icon-btn"
 						/>
 						<span>Home</span>
+					</Flex>
+				</NavLink>
+			</ListItem>
+			<ListItem fontSize="24">
+				<NavLink
+					style={getActiveStyle}
+					to="/explore"
+					state={{ pageToShow: "explore" }}
+				>
+					<Flex align="center" gap={4}>
+						<ListIcon
+							as={AiOutlineHome}
+							color={colorToggler(400)}
+							className="icon-btn"
+						/>
+						<span>Explore</span>
 					</Flex>
 				</NavLink>
 			</ListItem>
@@ -57,6 +74,11 @@ export const SideNav = () => {
 						<span>Bookmarks</span>
 					</Flex>
 				</NavLink>
+			</ListItem>
+			<ListItem>
+				<Center>
+					<NewPostModal />
+				</Center>
 			</ListItem>
 		</List>
 	);
