@@ -36,7 +36,6 @@ export const SortPosts = () => {
 					leftIcon={<BiTrendingUp />}
 					onClick={() => dispatch(sortByValue("trending"))}
 				>
-					{" "}
 					what's trending
 				</Button>
 				<Menu>

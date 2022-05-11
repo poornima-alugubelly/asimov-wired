@@ -7,6 +7,9 @@ import {
 	Button,
 	Flex,
 } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import { followUser, unfollowUser } from "./userProfileSlice";
+import { checkUserPresent } from "../../helpers/checkUserPresent";
 
 export const UserHorizontalCard = ({ usersList }) => {
 	return (
@@ -26,12 +29,8 @@ export const UserHorizontalCard = ({ usersList }) => {
 					>
 						<Box>
 							<Text>{`${user.firstName} ${user.lastName}`}</Text>
-							<Text color="gray">{`${user.username}`}</Text>
+							<Text color="gray">{`@${user.username}`}</Text>
 						</Box>
-
-						<Button size="xs" variant="outline">
-							Follow
-						</Button>
 					</Flex>
 				</ListItem>
 			))}

@@ -56,7 +56,7 @@ export const Home = () => {
 					display={["none", "none", "none", "block"]}
 				>
 					<Box position="fixed" m="2" mt="4" pb="4" pt="2" w="100%">
-						<SortPosts />
+						{currPage === undefined && <SortPosts />}
 						<SuggestedProfiles />
 					</Box>
 				</GridItem>
