@@ -63,7 +63,8 @@ export const PostCard = ({ postDetails }) => {
 		createdAt,
 		avatarURL,
 	} = postDetails;
-
+	const checkInBookMarks = () =>
+		bookmarkedPosts.find((bookmarkId) => bookmarkId === _id);
 	const colorToggler = useColorToggler();
 
 	const saveHandler = () => {
@@ -165,7 +166,7 @@ export const PostCard = ({ postDetails }) => {
 						/>
 					)}
 
-					{checkItemPresent(postId, bookmarkedPosts) ? (
+					{checkInBookMarks() ? (
 						<IconButton
 							icon={<IoBookmark className="icon-btn" />}
 							variant="iconButton"

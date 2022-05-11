@@ -2,7 +2,7 @@ import { GridItem, Center, Box, Image } from "@chakra-ui/react";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { getPosts, getUser, useProfile, getUserPost } from "../../features";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ProfileDetails, PostCard, resetProfile } from "../../features";
 import { postsGridContainer } from "../../styles";
@@ -23,8 +23,18 @@ export const UserProfile = () => {
 			dispatch(resetProfile());
 		};
 	}, [username, dispatch]);
-	let { userToDisplay, userPosts } = useProfile();
+	let { userToDisplay } = useProfile();
+	let { allPosts } = useSelector((state) => state.posts);
+	// let {
+	// 	user: { username: authUsername },
+	// } = useSelector((state) => state.auth);
+
+	// if (authUsername === username) {
+	// 	userPosts = allPosts.filter((post) => post.username === authUsername);
+	// }
+	let userPosts = allPosts.filter((post) => post.username === username);
 	userPosts = sortByDate(userPosts);
+	console.log(userPosts);
 
 	return (
 		<GridItem {...postsGridContainer} borderColor={colorToggler(400)}>

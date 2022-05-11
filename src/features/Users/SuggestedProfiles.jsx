@@ -13,7 +13,7 @@ export const SuggestedProfiles = () => {
 	const {
 		user: { username, following },
 	} = useSelector((state) => state.auth);
-	console.log(allUsers);
+
 	useEffect(() => dispatch(getAllUsers()), [dispatch]);
 	const suggestedUsers = allUsers
 		.filter(
