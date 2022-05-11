@@ -96,13 +96,14 @@ export const PostCard = ({ postDetails }) => {
 							variant={"unstyled"}
 							icon={<BsThreeDotsVertical className="icon-btn" />}
 						/>
-						<MenuList bgColor={colorToggler(900)}>
+						<MenuList bgColor={colorToggler(800)}>
 							<MenuItem
 								icon={<BiEdit fontSize={"24"} />}
 								fontSize={"md"}
 								onClick={() => {
 									setIsEditing(true);
 								}}
+								_hover={{ bgColor: colorToggler(900) }}
 							>
 								Edit Post
 							</MenuItem>
@@ -110,6 +111,7 @@ export const PostCard = ({ postDetails }) => {
 								icon={<MdOutlineDeleteOutline fontSize={"24"} />}
 								fontSize={"md"}
 								onClick={() => dispatch(deletePost({ token, postId: _id }))}
+								_hover={{ bgColor: colorToggler(900) }}
 							>
 								Delete Post
 							</MenuItem>

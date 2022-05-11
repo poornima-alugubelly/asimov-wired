@@ -1,6 +1,7 @@
 import { List, ListIcon, ListItem, Flex, Link, Center } from "@chakra-ui/react";
 import { AiOutlineHome } from "react-icons/ai";
-import { BiHash } from "react-icons/bi";
+import { IoBookmarkOutline } from "react-icons/io5";
+import { MdOutlineExplore } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { RiNotification2Line } from "react-icons/ri";
 import { useColorToggler } from "../hooks/useColorToggler";
@@ -38,7 +39,7 @@ export const SideNav = () => {
 				>
 					<Flex align="center" gap={4}>
 						<ListIcon
-							as={AiOutlineHome}
+							as={MdOutlineExplore}
 							color={colorToggler(400)}
 							className="icon-btn"
 						/>
@@ -54,7 +55,11 @@ export const SideNav = () => {
 					state={{ pageToShow: "profile" }}
 				>
 					<Flex align="center" gap={4}>
-						<ListIcon as={CgProfile} color="brand.400" className="icon-btn" />
+						<ListIcon
+							as={CgProfile}
+							color={colorToggler(400)}
+							className="icon-btn"
+						/>
 						<span>Profile</span>
 					</Flex>
 				</NavLink>
@@ -67,8 +72,8 @@ export const SideNav = () => {
 				>
 					<Flex align="center" gap={4}>
 						<ListIcon
-							as={RiNotification2Line}
-							color="brand.400"
+							as={IoBookmarkOutline}
+							color={colorToggler(400)}
 							className="icon-btn"
 						/>
 						<span>Bookmarks</span>

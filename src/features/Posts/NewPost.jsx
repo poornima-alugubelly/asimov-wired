@@ -33,7 +33,7 @@ export const NewPost = ({ close = null }) => {
 	};
 	return (
 		<VStack {...postCard}>
-			<Link to={`/profile/${username}`}>
+			<Link to={`/profile/${username}`} state={{ pageToShow: "profile" }}>
 				<HStack spacing="3">
 					<Avatar name={`${firstName}${lastName}`} src={avatarURL} />
 					<Box>

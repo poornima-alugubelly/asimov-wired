@@ -17,6 +17,7 @@ export const UserHorizontalCard = ({ usersList }) => {
 					to={`/profile/${user.username}`}
 					state={{ pageToShow: "profile" }}
 					style={{ padding: "0.2rem" }}
+					key={user.username}
 				>
 					<ListItem
 						display={"flex"}

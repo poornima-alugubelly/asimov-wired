@@ -10,12 +10,16 @@ import {
 import { useColorMode } from "@chakra-ui/react";
 import { BsFillSunFill, BsSearch, BsFillMoonStarsFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useColorToggler } from "../hooks/useColorToggler";
 
 export const NavBar = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
 	const colorToggler = useColorToggler();
-	const { token } = useSelector((state) => state.auth);
+	const {
+		token,
+		user: { username, firstName, lastName, avatarURL },
+	} = useSelector((state) => state.auth);
 
 	return (
 		token && (
@@ -41,13 +45,15 @@ export const NavBar = () => {
 					m="0"
 					display={["none", "block", "block", "block"]}
 				>
-					AW
+					<Link to="/">AW</Link>
 				</Box>
-				<Avatar
-					name="Dan Abrahmov"
-					display={["block", "none", "none", "none"]}
-					src="https://bit.ly/dan-abramov"
-				/>
+				<Link to={`/profile/${username}`} state={{ pageToShow: "profile" }}>
+					<Avatar
+						name={`${firstName} ${lastName}`}
+						display={["block", "none", "none", "none"]}
+						src={avatarURL}
+					/>
+				</Link>
 
 				<InputGroup w="md" m="2">
 					<Input placeholder="enter username"></Input>

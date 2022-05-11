@@ -42,14 +42,17 @@ export const SortPosts = () => {
 					<MenuButton as={Button} rightIcon={<BsChevronDown />}>
 						<Text> Date Posted</Text>
 					</MenuButton>
-					<MenuList bgColor={colorToggler(900)}>
-						<MenuItem onClick={() => dispatch(sortByValue(""))}>
-							Default
-						</MenuItem>
-						<MenuItem onClick={() => dispatch(sortByValue("oldest"))}>
+					<MenuList bgColor={colorToggler(800)}>
+						<MenuItem
+							onClick={() => dispatch(sortByValue("oldest"))}
+							_hover={{ bgColor: colorToggler(900) }}
+						>
 							Oldest
 						</MenuItem>
-						<MenuItem onClick={() => dispatch(sortByValue("newest"))}>
+						<MenuItem
+							onClick={() => dispatch(sortByValue("newest"))}
+							_hover={{ bgColor: colorToggler(900) }}
+						>
 							Newest
 						</MenuItem>
 					</MenuList>

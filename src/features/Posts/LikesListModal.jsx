@@ -15,7 +15,6 @@ export const LikesListModal = ({ usersList }) => {
 	const { isOpen, onClose } = useDisclosure({ isOpen: true });
 	const colorToggler = useColorToggler();
 	const dispatch = useDispatch();
-	console.log(usersList);
 	return (
 		<Modal
 			isOpen={isOpen}
