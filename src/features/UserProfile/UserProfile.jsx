@@ -34,7 +34,6 @@ export const UserProfile = () => {
 	// }
 	let userPosts = allPosts.filter((post) => post.username === username);
 	userPosts = sortByDate(userPosts);
-	console.log(userPosts);
 
 	return (
 		<GridItem {...postsGridContainer} borderColor={colorToggler(400)}>

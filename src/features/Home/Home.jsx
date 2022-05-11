@@ -20,6 +20,7 @@ import { SortPosts } from "./components/SortPosts";
 import { Explore } from "../Posts/Explore";
 import { NavBar } from "../../components/NavBar";
 import { BottomNav } from "../../components/BottomNav";
+import { Comments } from "../Posts/Comments";
 
 export const Home = () => {
 	const colorToggler = useColorToggler();
@@ -40,6 +41,7 @@ export const Home = () => {
 						if (currPage === "profile") return <UserProfile />;
 						else if (currPage === "bookmarks") return <Bookmarks />;
 						else if (currPage === "explore") return <Explore />;
+						else if (currPage === "comments") return <Comments />;
 						else {
 							return (
 								<GridItem

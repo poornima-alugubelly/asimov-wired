@@ -7,6 +7,10 @@ import {
 	createPostService,
 	likePostService,
 	dislikePostService,
+	getCommentService,
+	addCommentService,
+	editCommentService,
+	deleteCommentService,
 } from "../../services/postServices";
 import {
 	getAllBookmarkService,
@@ -122,6 +126,44 @@ export const removeBookmark = createAsyncThunk(
 	}
 );
 
+export const addComment = createAsyncThunk(
+	"posts/addComments",
+	async ({ postId, commentData, token }) => {
+		try {
+			const response = await addCommentService(postId, commentData, token);
+
+			return response.data.posts;
+		} catch (err) {
+			console.log(err);
+		}
+	}
+);
+
+export const editComment = createAsyncThunk(
+	"posts/editComment",
+	async ({ postId, commentData, token }) => {
+		try {
+			const response = await editCommentService(postId, commentData, token);
+			return response.data.posts;
+		} catch (err) {
+			console.log(err);
+		}
+	}
+);
+
+export const deleteComment = createAsyncThunk(
+	"posts/deleteComment",
+	async ({ postId, commentId, token }) => {
+		console.log(commentId);
+		try {
+			const response = await deleteCommentService(postId, commentId, token);
+			return response.data.posts;
+		} catch (err) {
+			console.log(err);
+		}
+	}
+);
+
 const initialState = {
 	userPosts: [],
 	allPosts: [],
@@ -176,6 +218,18 @@ const postSlice = createSlice({
 		[removeBookmark.fulfilled]: (state, { payload }) => {
 			toast.success("Removed bookmark!");
 			state.bookmarkedPosts = payload.bookmarks;
+		},
+		[addComment.fulfilled]: (state, { payload }) => {
+			toast.success("comment added!");
+			state.allPosts = payload;
+		},
+		[deleteComment.fulfilled]: (state, { payload }) => {
+			toast.success("comment removed!");
+			state.allPosts = payload;
+		},
+		[editComment.fulfilled]: (state, { payload }) => {
+			toast.success("comment updated!");
+			state.allPosts = payload;
 		},
 	},
 });
