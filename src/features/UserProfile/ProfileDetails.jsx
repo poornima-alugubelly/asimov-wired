@@ -19,6 +19,10 @@ import { useNavigate } from "react-router-dom";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../features";
+import { followUser, unfollowUser } from "./userProfileSlice";
+import { checkUserPresent } from "../../helpers/checkUserPresent";
+import { useState } from "react";
+import { UsersListModal } from "./UsersListModal";
 
 export const ProfileDetails = ({ user, userPostsLength }) => {
 	const dispatch = useDispatch();
@@ -27,24 +31,25 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 		firstName,
 		lastName,
 		username: currUserName,
-		bookmarks,
+		avatarURL,
 		followers,
 		following,
 		bio,
 		portfolio,
+		_id: followUserId,
 	} = user;
 
 	const {
-		user: { username },
+		user: { username, id: userId },
+		token,
 	} = useSelector((state) => state.auth);
+
+	const [openFollowersList, setOpenFollowersList] = useState(false);
+	const [openFollowingList, setOpenFollowingList] = useState(false);
 
 	return (
 		<Stack spacing="4" w="90%" direction={["column", "row"]} py="4">
-			<Avatar
-				name="Oshigaki Kisame"
-				src="https://bit.ly/dan-abramov"
-				size="2xl"
-			/>
+			<Avatar name={`${firstName} ${lastName}`} src={avatarURL} size="2xl" />
 			<Box>
 				<Flex {...flexSpaceBetween}>
 					<Box pr="2">
@@ -71,8 +76,22 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 										}}
 									/>
 								</>
+							) : checkUserPresent(username, followers) ? (
+								<Button
+									onClick={() =>
+										dispatch && dispatch(unfollowUser({ followUserId, token }))
+									}
+								>
+									unfollow
+								</Button>
 							) : (
-								<Button>follow</Button>
+								<Button
+									onClick={() =>
+										dispatch && dispatch(followUser({ followUserId, token }))
+									}
+								>
+									follow
+								</Button>
 							)}
 						</HStack>
 					</Box>
@@ -82,9 +101,29 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 					<Text>{`${userPostsLength} Post${
 						userPostsLength === 1 ? "" : "s"
 					}`}</Text>
-					<Text>{`${followers.length} followers`}</Text>
-					<Text>{`${following.length} following`}</Text>
+					<Link
+						onClick={() => setOpenFollowersList(true)}
+					>{`${followers.length} followers`}</Link>
+					<Link
+						onClick={() => setOpenFollowingList(true)}
+					>{`${following.length} following`}</Link>
+
+					{openFollowersList && (
+						<UsersListModal
+							usersList={followers}
+							setClose={setOpenFollowersList}
+							modalTitle="FOLLOWERS"
+						/>
+					)}
+					{openFollowingList && (
+						<UsersListModal
+							usersList={following}
+							setClose={setOpenFollowingList}
+							modalTitle="FOLLOWING"
+						/>
+					)}
 				</Flex>
+
 				{portfolio && (
 					<Flex align="center">
 						<Icon as={BsLink45Deg} />

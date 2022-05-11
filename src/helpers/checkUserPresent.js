@@ -1,4 +1,7 @@
-export const checkUserPresent = (userId, givenArray) => {
-	const res = givenArray.find((item) => item.id === userId);
+export const checkUserPresent = (givenUsername, givenArray) => {
+	const res = givenArray.find((item) => {
+		return item.username === givenUsername;
+	});
+
 	return res;
 };

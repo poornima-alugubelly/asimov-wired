@@ -14,32 +14,57 @@ import {
 	Input,
 	Textarea,
 	Button,
+	Link as ChakraLink,
 } from "@chakra-ui/react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useColorToggler } from "../../hooks/useColorToggler";
-import { useState } from "react";
-import { deletePost, dislikePost, editPost, likePost } from "../../features";
+import { useEffect, useState } from "react";
+import {
+	deletePost,
+	dislikePost,
+	editPost,
+	likePost,
+	setOpenLikesList,
+	addBookmark,
+	getBookmarks,
+	removeBookmark,
+} from "./postSlice";
 import { postCard, flexSpaceBetween } from "../../styles";
-import { checkUserPresent } from "../../helpers/checkUserPresent";
+import { checkItemPresent } from "../../helpers/checkItemPresent";
 
 export const PostCard = ({ postDetails }) => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
+	useEffect(() => getBookmarks(), []);
+	const { bookmarkedPosts } = useSelector((state) => state.posts);
 	const [isEditing, setIsEditing] = useState(false);
+
 	const [postEdited, setPostEdited] = useState({ ...postDetails });
+	let location = useLocation();
+	let currPage = location.state?.pageToShow;
 	const {
 		user: { username: currUser, id: userId },
 		token,
 	} = useSelector((state) => state.auth);
-	const { id, _id, content, likes, username, image, firstName, lastName } =
-		postDetails;
-
+	const {
+		id: postId,
+		_id,
+		content,
+		likes,
+		username,
+		image,
+		firstName,
+		lastName,
+		createdAt,
+		avatarURL,
+	} = postDetails;
+	const checkInBookMarks = () =>
+		bookmarkedPosts.find((bookmarkId) => bookmarkId === _id);
 	const colorToggler = useColorToggler();
 
 	const saveHandler = () => {
@@ -47,31 +72,24 @@ export const PostCard = ({ postDetails }) => {
 		setIsEditing(false);
 	};
 
-	const deleteHandler = () => {
-		dispatch(deletePost({ token, postId: _id }));
-	};
-
-	const likeHandler = () => {
-		dispatch(likePost({ token, postId: _id }));
-	};
-	const dislikeHandler = () => {
-		dispatch(dislikePost({ token, postId: _id }));
-	};
-
 	return (
 		<VStack {...postCard}>
 			<Flex {...flexSpaceBetween}>
-				<Link to={`/profile/${username}`}>
-					<HStack spacing="3" onClick={() => navigate()}>
-						<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-						<Box>
+				<Link to={`/profile/${username}`} state={{ pageToShow: "profile" }}>
+					<HStack spacing="2">
+						<Avatar name="Dan Abrahmov" src={avatarURL} />
+						<HStack spacing="1">
 							<Text>{`${firstName} ${lastName}`}</Text>
 							<Text color="gray">{`@${username}`}</Text>
-						</Box>
+						</HStack>
+						<Text color="gray">•</Text>{" "}
+						<Text color="gray">{`${new Date(
+							createdAt
+						).toLocaleDateString()}`}</Text>
 					</HStack>
 				</Link>
 
-				{username === currUser && (
+				{username === currUser && currPage && (
 					<Menu>
 						<MenuButton
 							as={IconButton}
@@ -79,20 +97,22 @@ export const PostCard = ({ postDetails }) => {
 							variant={"unstyled"}
 							icon={<BsThreeDotsVertical className="icon-btn" />}
 						/>
-						<MenuList bgColor={colorToggler(900)}>
+						<MenuList bgColor={colorToggler(800)}>
 							<MenuItem
 								icon={<BiEdit fontSize={"24"} />}
 								fontSize={"md"}
 								onClick={() => {
 									setIsEditing(true);
 								}}
+								_hover={{ bgColor: colorToggler(900) }}
 							>
 								Edit Post
 							</MenuItem>
 							<MenuItem
 								icon={<MdOutlineDeleteOutline fontSize={"24"} />}
 								fontSize={"md"}
-								onClick={deleteHandler}
+								onClick={() => dispatch(deletePost({ token, postId: _id }))}
+								_hover={{ bgColor: colorToggler(900) }}
 							>
 								Delete Post
 							</MenuItem>
@@ -130,22 +150,49 @@ export const PostCard = ({ postDetails }) => {
 					/>
 				</Box>
 			)}
-			<Box>
-				{checkUserPresent(userId, likes?.likedBy) ? (
-					<IconButton
-						icon={<AiFillHeart className="icon-btn" />}
-						variant="iconButton"
-						onClick={dislikeHandler}
-					/>
-				) : (
-					<IconButton
-						icon={<AiOutlineHeart className="icon-btn" />}
-						variant="iconButton"
-						onClick={likeHandler}
-					/>
-				)}
+			<Box w="full">
+				<Box display="flex" justifyContent="space-between">
+					{checkItemPresent(userId, likes?.likedBy) ? (
+						<IconButton
+							icon={<AiFillHeart className="icon-btn" />}
+							variant="iconButton"
+							onClick={() => dispatch(dislikePost({ token, postId: _id }))}
+						/>
+					) : (
+						<IconButton
+							icon={<AiOutlineHeart className="icon-btn" />}
+							variant="iconButton"
+							onClick={() => dispatch(likePost({ token, postId: _id }))}
+						/>
+					)}
 
-				<Text color={colorToggler(400)}>Liked by {likes.likeCount} people</Text>
+					{checkInBookMarks() ? (
+						<IconButton
+							icon={<IoBookmark className="icon-btn" />}
+							variant="iconButton"
+							onClick={() => dispatch(removeBookmark({ token, postId: _id }))}
+						/>
+					) : (
+						<IconButton
+							icon={<IoBookmarkOutline className="icon-btn" />}
+							variant="iconButton"
+							onClick={() => dispatch(addBookmark({ token, postId: _id }))}
+						/>
+					)}
+				</Box>
+				<ChakraLink
+					color={colorToggler(400)}
+					onClick={() =>
+						dispatch(
+							setOpenLikesList({
+								likesListState: true,
+								likesListVal: likes?.likedBy,
+							})
+						)
+					}
+				>
+					Liked by {likes.likeCount} people
+				</ChakraLink>
 			</Box>
 		</VStack>
 	);

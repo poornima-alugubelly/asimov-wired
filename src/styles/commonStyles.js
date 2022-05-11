@@ -16,7 +16,7 @@ export const mainContainer = {
 };
 
 export const mainGrid = {
-	templateColumns: ["1fr", "1fr", "repeat(4,1fr)", "repeat(5, 1fr)"],
+	templateColumns: ["1fr", "1fr", "repeat(4,1fr)", "repeat(5, minmax(0,1fr))"],
 	gap: "4",
 	h: "full",
 };

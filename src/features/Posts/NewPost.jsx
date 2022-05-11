@@ -17,22 +17,25 @@ import { Link } from "react-router-dom";
 import { createPost } from "../../features";
 import { postCard, flexSpaceBetween } from "../../styles";
 
-export const NewPost = () => {
+export const NewPost = ({ close = null }) => {
 	const [content, setPostContent] = useState("");
 	const dispatch = useDispatch();
 	const {
 		token,
-		user: { firstName, lastName, username },
+		user: { firstName, lastName, username, avatarURL },
 	} = useSelector((state) => state.auth);
 	const submitHandler = () => {
 		dispatch(createPost({ token, postData: { content } }));
 		setPostContent("");
+		if (close) {
+			close();
+		}
 	};
 	return (
 		<VStack {...postCard}>
-			<Link to={`/profile/${username}`}>
+			<Link to={`/profile/${username}`} state={{ pageToShow: "profile" }}>
 				<HStack spacing="3">
-					<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+					<Avatar name={`${firstName}${lastName}`} src={avatarURL} />
 					<Box>
 						<Text>{`${firstName} ${lastName}`}</Text>
 						<Text color="gray">{`@${username}`}</Text>

@@ -8,6 +8,11 @@ import {
 	likePostService,
 	dislikePostService,
 } from "../../services/postServices";
+import {
+	getAllBookmarkService,
+	addBookmarkService,
+	removeBookmarkService,
+} from "../../services/postServices";
 
 export const getPosts = createAsyncThunk("posts/getPosts", async () => {
 	try {
@@ -81,15 +86,63 @@ export const dislikePost = createAsyncThunk(
 	}
 );
 
+export const getBookmarks = createAsyncThunk(
+	"posts/getBookmarks",
+	async ({ token }) => {
+		try {
+			const response = await getAllBookmarkService(token);
+			return response.data;
+		} catch (error) {
+			console.log(error.response.data);
+		}
+	}
+);
+
+export const addBookmark = createAsyncThunk(
+	"posts/addBookmark",
+	async ({ token, postId }) => {
+		try {
+			const response = await addBookmarkService(postId, token);
+			return response.data;
+		} catch (error) {
+			console.log(error.response.data);
+		}
+	}
+);
+
+export const removeBookmark = createAsyncThunk(
+	"posts/removeBookmark",
+	async ({ token, postId }) => {
+		try {
+			const response = await removeBookmarkService(postId, token);
+			return response.data;
+		} catch (error) {
+			console.log(error.response.data);
+		}
+	}
+);
+
 const initialState = {
 	userPosts: [],
 	allPosts: [],
+	bookmarkedPosts: [],
+	sortBy: "latest",
+	openLikesList: false,
+	likesList: [],
 };
 
 const postSlice = createSlice({
 	name: "posts",
 	initialState,
-	reducers: {},
+	reducers: {
+		sortByValue: (state, action) => {
+			state.sortBy = action.payload;
+		},
+		setOpenLikesList: (state, action) => {
+			state.openLikesList = action.payload.likesListState;
+			state.likesList = action.payload.likesListVal;
+		},
+	},
 	extraReducers: {
 		[getPosts.fulfilled]: (state, { payload }) => {
 			state.allPosts = payload;
@@ -113,7 +166,19 @@ const postSlice = createSlice({
 		[dislikePost.fulfilled]: (state, { payload }) => {
 			state.allPosts = payload;
 		},
+		[getBookmarks.fulfilled]: (state, { payload }) => {
+			state.bookmarkedPosts = payload.bookmarks;
+		},
+		[addBookmark.fulfilled]: (state, { payload }) => {
+			toast.success("Bookmarked post!");
+			state.bookmarkedPosts = payload.bookmarks;
+		},
+		[removeBookmark.fulfilled]: (state, { payload }) => {
+			toast.success("Removed bookmark!");
+			state.bookmarkedPosts = payload.bookmarks;
+		},
 	},
 });
 
+export const { sortByValue, setOpenLikesList } = postSlice.actions;
 export const postReducer = postSlice.reducer;

@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { usePwdToggler } from "../../hooks/usePwdToggler";
-import { loginUser } from "../../features";
+import { loginUser } from "./authSlice";
 
 export const Login = () => {
 	const colorToggler = useColorToggler();
@@ -30,7 +30,6 @@ export const Login = () => {
 	const navigate = useNavigate();
 
 	const loginHandler = async (e, username, password) => {
-		console.log(username, password);
 		setFormVal({ username, password });
 		e.preventDefault();
 		const res = await dispatch(loginUser({ username, password }));
