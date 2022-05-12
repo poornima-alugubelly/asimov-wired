@@ -37,7 +37,6 @@ import {
 	removeBookmark,
 } from "./postSlice";
 import { postCard, flexSpaceBetween } from "../../styles";
-import { checkItemPresent } from "../../helpers/checkItemPresent";
 import { getTimeDifference } from "../../helpers/getTimeDifference";
 import { checkUserPresent } from "../../helpers/checkUserPresent";
 
@@ -139,7 +138,12 @@ export const PostCard = ({ postDetails }) => {
 						}
 					></Textarea>{" "}
 					<Box>
-						<Button onClick={saveHandler}>Save</Button>{" "}
+						<Button
+							onClick={saveHandler}
+							isDisabled={postEdited.content.length === 0}
+						>
+							Save
+						</Button>{" "}
 						<Button variant={"outline"} onClick={() => setIsEditing(false)}>
 							Cancel
 						</Button>

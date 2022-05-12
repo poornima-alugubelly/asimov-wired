@@ -9,6 +9,8 @@ import {
 	Image,
 	Text,
 	IconButton,
+	CircularProgress,
+	CircularProgressLabel,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlinePicture } from "react-icons/ai";
@@ -16,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createPost } from "./postSlice";
 import { postCard, flexSpaceBetween } from "../../styles";
+import { useColorToggler } from "../../hooks/useColorToggler";
 
 export const NewPost = ({ close = null }) => {
 	const [content, setPostContent] = useState("");
@@ -31,6 +34,7 @@ export const NewPost = ({ close = null }) => {
 			close();
 		}
 	};
+	const colorToggler = useColorToggler();
 	return (
 		<VStack {...postCard}>
 			<Link to={`/profile/${username}`} state={{ pageToShow: "profile" }}>
@@ -61,12 +65,29 @@ export const NewPost = ({ close = null }) => {
 					borderRadius="30"
 				/>
 			</Box> */}
-			<Flex {...flexSpaceBetween}>
-				<IconButton
-					icon={<AiOutlinePicture className="icon-btn" />}
-					variant="iconButton"
-				/>
-				<Button onClick={submitHandler}>Post</Button>
+			<Flex justify="flex-end" w="full">
+				<HStack spacing="2">
+					<CircularProgress
+						value={content.length * (1 / 5)}
+						color={content.length > 500 ? "red" : colorToggler(400)}
+						size="35px"
+					>
+						{content.length > 489 && (
+							<CircularProgressLabel
+								fontSize={"15"}
+								color={content.length > 500 ? "red" : "yellow"}
+							>
+								{500 - content.length}
+							</CircularProgressLabel>
+						)}
+					</CircularProgress>
+					<Button
+						onClick={submitHandler}
+						isDisabled={content.length === 0 || content.length > 300}
+					>
+						Post
+					</Button>
+				</HStack>
 			</Flex>
 		</VStack>
 	);
