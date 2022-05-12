@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
 	followUserService,
-	getUserPostService,
 	getUserService,
 	unfollowUserService,
 	updateUserService,
@@ -13,18 +12,6 @@ export const getUser = createAsyncThunk(
 	async ({ username }) => {
 		try {
 			const response = await getUserService(username);
-			return response.data;
-		} catch (error) {
-			console.log(error);
-		}
-	}
-);
-
-export const getUserPost = createAsyncThunk(
-	"userProfile/getUserPost",
-	async ({ username }) => {
-		try {
-			const response = await getUserPostService(username);
 			return response.data;
 		} catch (error) {
 			console.log(error);
@@ -68,7 +55,6 @@ export const updateUser = createAsyncThunk(
 );
 const initialState = {
 	userToDisplay: null,
-	userPosts: [],
 };
 const userProfileSlice = createSlice({
 	name: "userProfile",
@@ -82,9 +68,6 @@ const userProfileSlice = createSlice({
 	extraReducers: {
 		[getUser.fulfilled]: (state, { payload }) => {
 			state.userToDisplay = payload.user;
-		},
-		[getUserPost.fulfilled]: (state, { payload }) => {
-			state.userPosts = payload.posts;
 		},
 		[updateUser.fulfilled]: (state, { payload }) => {
 			state.userToDisplay = payload.user;

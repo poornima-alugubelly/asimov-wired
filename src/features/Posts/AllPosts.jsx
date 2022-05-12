@@ -14,7 +14,6 @@ export const AllPosts = () => {
 	const {
 		user: { following, username },
 	} = useSelector((state) => state.auth);
-	console.log("re-render");
 	if (sortBy === "trending") {
 		allPosts = getTrendingPosts(allPosts);
 	} else {

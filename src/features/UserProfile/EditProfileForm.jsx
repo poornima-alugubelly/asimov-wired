@@ -74,7 +74,7 @@ export const EditProfileForm = () => {
 					border="1px solid"
 					borderColor={colorToggler(400)}
 				>
-					<ModalHeader>Modal Title</ModalHeader>
+					<ModalHeader>Your Details</ModalHeader>
 					<ModalCloseButton
 						bg="transparent"
 						_focus={{

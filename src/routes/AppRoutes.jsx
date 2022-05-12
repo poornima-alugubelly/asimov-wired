@@ -21,7 +21,7 @@ export const AppRoutes = () => {
 					<Route path="/comments/:postId" element={<Comments />} />
 				</Route>
 			</Route>
-
+			<Route path="*" element={<p>page not found</p>} />
 			<Route path="/login" element={<Login />} />
 			<Route path="/signup" element={<SignUp />} />
 		</Routes>

@@ -4,7 +4,6 @@ export const getTrendingPosts = (postsList) => {
 	const sortedByDate = sortByDate(postsList);
 	const current = new Date();
 	let index = 0;
-	console.log(sortedByDate);
 	const lastThreeMonthsPosts = [];
 	for (let i = 0; i < sortedByDate.length; i++) {
 		const diffDays =

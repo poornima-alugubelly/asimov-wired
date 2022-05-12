@@ -1,26 +1,23 @@
 import { Grid, GridItem, Center, Box } from "@chakra-ui/react";
-import { SideNav } from "../../components";
-import { PostCard } from "../Posts/PostCard";
-import { SuggestedProfiles } from "../Users/SuggestedProfiles";
-import { useColorToggler } from "../../hooks/useColorToggler";
-import { getPosts, AllPosts } from "../../features";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NewPost } from "../Posts/NewPost";
+import { useLocation } from "react-router-dom";
+import { SideNav } from "../../components";
+import { SuggestedProfiles, getPosts, AllPosts, NewPost, Comments } from "..";
+import { useColorToggler } from "../../hooks/useColorToggler";
 import {
 	mainContainer,
 	mainGrid,
 	sideNavGrid,
 	postsGridContainer,
 } from "../../styles";
-import { useLocation } from "react-router-dom";
 import { UserProfile } from "../UserProfile/UserProfile";
-import { Bookmarks } from "../Posts/Bookmarks";
+import { Bookmarks } from "./Bookmarks";
 import { SortPosts } from "./components/SortPosts";
-import { Explore } from "../Posts/Explore";
+import { Explore } from "./Explore";
 import { NavBar } from "../../components/NavBar";
 import { BottomNav } from "../../components/BottomNav";
-import { Comments } from "../Posts/Comments";
+import { Footer } from "../../components/Footer";
 
 export const Home = () => {
 	const colorToggler = useColorToggler();
@@ -73,6 +70,7 @@ export const Home = () => {
 					</GridItem>
 				</Grid>
 			</Box>
+			<Footer />
 			<BottomNav />
 		</>
 	);

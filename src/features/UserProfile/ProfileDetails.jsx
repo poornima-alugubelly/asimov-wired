@@ -16,7 +16,6 @@ import { BsLink45Deg } from "react-icons/bs";
 import { flexSpaceBetween, flexCenter } from "../../styles";
 import { EditProfileForm } from "./EditProfileForm";
 import { useNavigate } from "react-router-dom";
-import { useColorToggler } from "../../hooks/useColorToggler";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../features";
 import { followUser, unfollowUser } from "./userProfileSlice";
@@ -97,7 +96,7 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 					</Box>
 				</Flex>
 				<Text>{bio}</Text>
-				<Flex justifyContent="space-between" minW="80">
+				<Flex justifyContent="space-between" w="100%">
 					<Text>{`${userPostsLength} Post${
 						userPostsLength === 1 ? "" : "s"
 					}`}</Text>

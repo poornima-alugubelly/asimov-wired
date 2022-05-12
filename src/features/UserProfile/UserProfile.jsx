@@ -1,10 +1,11 @@
 import { GridItem, Center, Box, Image } from "@chakra-ui/react";
 import { useColorToggler } from "../../hooks/useColorToggler";
-import { getPosts, getUser, useProfile, getUserPost } from "../../features";
+import { getUser, useProfile, resetProfile } from "./userProfileSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { ProfileDetails, PostCard, resetProfile } from "../../features";
+import { ProfileDetails } from "./ProfileDetails";
+import { PostCard } from "..";
 import { postsGridContainer } from "../../styles";
 import { sortByDate } from "../../helpers/sortByDate";
 
@@ -16,7 +17,6 @@ export const UserProfile = () => {
 	useEffect(() => {
 		if (dispatch) {
 			dispatch(getUser({ username }));
-			dispatch(getUserPost({ username }));
 		}
 
 		return () => {
@@ -25,13 +25,7 @@ export const UserProfile = () => {
 	}, [username, dispatch]);
 	let { userToDisplay } = useProfile();
 	let { allPosts } = useSelector((state) => state.posts);
-	// let {
-	// 	user: { username: authUsername },
-	// } = useSelector((state) => state.auth);
 
-	// if (authUsername === username) {
-	// 	userPosts = allPosts.filter((post) => post.username === authUsername);
-	// }
 	let userPosts = allPosts.filter((post) => post.username === username);
 	userPosts = sortByDate(userPosts);
 
