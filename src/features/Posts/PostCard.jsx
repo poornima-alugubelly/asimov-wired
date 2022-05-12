@@ -216,7 +216,6 @@ export const PostCard = ({ postDetails }) => {
 								}
 							/>
 						)}
-						<Text color="gray">{bookmarkedPosts.length}</Text>
 					</HStack>
 				</Box>
 				<ChakraLink

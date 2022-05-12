@@ -10,12 +10,10 @@ export const Bookmarks = () => {
 	const { bookmarkedPosts, allPosts } = useSelector((state) => state.posts);
 	const { token } = useSelector((state) => state.auth);
 	const colorToggler = useColorToggler();
-	useEffect(() => dispatch && dispatch(getBookmarks({ token })), [dispatch]);
-	const allBookmarkedPosts = allPosts.filter((post) => {
-		for (let id of bookmarkedPosts) {
-			return post._id === id;
-		}
-	});
+	useEffect(() => dispatch && dispatch(getBookmarks({ token })), []);
+	const allBookmarkedPosts = allPosts.filter((post) =>
+		bookmarkedPosts.find((id) => post._id === id)
+	);
 
 	return bookmarkedPosts?.length === 0 ? (
 		<GridItem {...postsGridContainer} border="none">

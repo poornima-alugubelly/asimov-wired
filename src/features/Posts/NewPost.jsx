@@ -28,7 +28,7 @@ export const NewPost = ({ close = null }) => {
 		user: { firstName, lastName, username, avatarURL },
 	} = useSelector((state) => state.auth);
 	const submitHandler = () => {
-		dispatch(createPost({ token, postData: { content: content.trim() } }));
+		dispatch(createPost({ token, postData: { content: content } }));
 		setPostContent("");
 		if (close) {
 			close();
@@ -67,18 +67,18 @@ export const NewPost = ({ close = null }) => {
 			</Box> */}
 			<Flex justify="flex-end" w="full">
 				<HStack spacing="2">
-					{content.trim().length !== 0 && (
+					{content.length !== 0 && (
 						<CircularProgress
-							value={content.trim().length * (1 / 4)}
-							color={content.trim().length > 400 ? "red" : colorToggler(400)}
+							value={content.length * (1 / 4)}
+							color={content.length > 400 ? "red" : colorToggler(400)}
 							size="35px"
 						>
 							{content.length > 390 && (
 								<CircularProgressLabel
 									fontSize={"15"}
-									color={content.trim().length > 400 ? "red" : "yellow"}
+									color={content.length > 400 ? "red" : "yellow"}
 								>
-									{400 - content.trim().length}
+									{400 - content.length}
 								</CircularProgressLabel>
 							)}
 						</CircularProgress>
@@ -86,9 +86,7 @@ export const NewPost = ({ close = null }) => {
 
 					<Button
 						onClick={submitHandler}
-						isDisabled={
-							content.trim().length === 0 || content.trim().length > 400
-						}
+						isDisabled={content.trim().length === 0 || content.length > 400}
 					>
 						Post
 					</Button>
