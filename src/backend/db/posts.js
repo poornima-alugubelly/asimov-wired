@@ -54,6 +54,36 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181891/socmedia/pic1_jwkxzf.jpg",
+		comments: [
+			{
+				_id: uuid(),
+				firstName: "Sarah",
+				lastName: "Walkman",
+				username: "SarahW",
+				avatarURL:
+					"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181470/socmedia/pic2_vfqvfn.jpg",
+				text: "janedoe",
+				votes: {
+					upvotedBy: [],
+					downvotedBy: [],
+				},
+				createdAt: new Date("Apr 07 2021 12:31:25"),
+			},
+			{
+				_id: uuid(),
+				firstName: "Jane",
+				lastName: "Doe",
+				username: "janedoe",
+				avatarURL:
+					"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181761/socmedia/pic3_py263g.jpg",
+				text: "Wow!",
+				votes: {
+					upvotedBy: [],
+					downvotedBy: [],
+				},
+				createdAt: new Date("Apr 08 2021 12:31:25"),
+			},
+		],
 	},
 	{
 		_id: uuid(),
@@ -93,6 +123,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181470/socmedia/pic2_vfqvfn.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -149,6 +180,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181761/socmedia/pic3_py263g.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -190,6 +222,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181891/socmedia/pic1_jwkxzf.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -223,6 +256,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181889/socmedia/pic5_qq8ne3.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -277,6 +311,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181762/socmedia/pic4_dtzqlj.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -310,6 +345,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181890/socmedia/pic6_brdxis.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -374,6 +410,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181891/socmedia/pic1_jwkxzf.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -415,6 +452,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181889/socmedia/pic7_rmi3s7.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -448,6 +486,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181891/socmedia/pic1_jwkxzf.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -489,6 +528,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181889/socmedia/pic5_qq8ne3.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -521,6 +561,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181470/socmedia/pic2_vfqvfn.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -577,6 +618,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181889/socmedia/pic7_rmi3s7.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -623,6 +665,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181761/socmedia/pic3_py263g.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -648,6 +691,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181762/socmedia/pic4_dtzqlj.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -697,6 +741,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181890/socmedia/pic6_brdxis.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -730,6 +775,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181891/socmedia/pic1_jwkxzf.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -763,6 +809,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181891/socmedia/pic1_jwkxzf.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -804,6 +851,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181761/socmedia/pic3_py263g.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -853,6 +901,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181889/socmedia/pic5_qq8ne3.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -886,6 +935,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181470/socmedia/pic2_vfqvfn.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -925,6 +975,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181762/socmedia/pic4_dtzqlj.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -942,6 +993,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181891/socmedia/pic1_jwkxzf.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -976,6 +1028,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181890/socmedia/pic6_brdxis.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -1032,6 +1085,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181761/socmedia/pic3_py263g.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -1066,6 +1120,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181889/socmedia/pic7_rmi3s7.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -1105,6 +1160,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181889/socmedia/pic5_qq8ne3.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -1130,6 +1186,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181762/socmedia/pic4_dtzqlj.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -1170,6 +1227,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181470/socmedia/pic2_vfqvfn.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -1203,6 +1261,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181890/socmedia/pic6_brdxis.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -1243,6 +1302,7 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181891/socmedia/pic1_jwkxzf.jpg",
+		comments: [],
 	},
 	{
 		_id: uuid(),
@@ -1260,5 +1320,6 @@ export const posts = [
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181889/socmedia/pic7_rmi3s7.jpg",
+		comments: [],
 	},
 ];

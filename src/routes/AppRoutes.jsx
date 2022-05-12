@@ -6,6 +6,7 @@ import {
 	UserProfile,
 	Bookmarks,
 	Explore,
+	Comments,
 } from "../features";
 import { PrivateRoutes } from "./PrivateRoutes";
 
@@ -17,6 +18,7 @@ export const AppRoutes = () => {
 					<Route path="/profile/:username" element={<UserProfile />} />
 					<Route path="/bookmarks" element={<Bookmarks />} />
 					<Route path="/explore" element={<Explore />} />
+					<Route path="/comments/:postId" element={<Comments />} />
 				</Route>
 			</Route>
 

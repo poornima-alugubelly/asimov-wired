@@ -66,3 +66,31 @@ export const removeBookmarkService = async (postId, token) => {
 		{ headers: { authorization: token } }
 	);
 };
+
+export const getCommentService = async (postId) => {
+	return await axios.get(`/api/comments/${postId}`);
+};
+
+export const addCommentService = async (postId, commentData, token) => {
+	return await axios.post(
+		`/api/comments/add/${postId}`,
+		{ commentData },
+		{ headers: { authorization: token } }
+	);
+};
+
+export const deleteCommentService = async (postId, commentId, token) => {
+	return await axios.post(
+		`/api/comments/delete/${postId}/${commentId}`,
+		{},
+		{ headers: { authorization: token } }
+	);
+};
+
+export const editCommentService = async (postId, commentData, token) => {
+	return await axios.post(
+		`/api/comments/edit/${postId}/${commentId}`,
+		{ commentData },
+		{ headers: { authorization: token } }
+	);
+};
