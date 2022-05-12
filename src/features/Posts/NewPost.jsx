@@ -69,7 +69,7 @@ export const NewPost = ({ close = null }) => {
 				<HStack spacing="2">
 					{content.trim().length !== 0 && (
 						<CircularProgress
-							value={content.trim().length * (1 / 5)}
+							value={content.trim().length * (1 / 4)}
 							color={content.trim().length > 400 ? "red" : colorToggler(400)}
 							size="35px"
 						>
@@ -87,7 +87,7 @@ export const NewPost = ({ close = null }) => {
 					<Button
 						onClick={submitHandler}
 						isDisabled={
-							content.trim().length === 0 || content.trim().length > 300
+							content.trim().length === 0 || content.trim().length > 400
 						}
 					>
 						Post
