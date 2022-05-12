@@ -17,6 +17,7 @@ import { SortPosts } from "./components/SortPosts";
 import { Explore } from "./Explore";
 import { NavBar } from "../../components/NavBar";
 import { BottomNav } from "../../components/BottomNav";
+import { Footer } from "../../components/Footer";
 
 export const Home = () => {
 	const colorToggler = useColorToggler();
@@ -69,6 +70,7 @@ export const Home = () => {
 					</GridItem>
 				</Grid>
 			</Box>
+			<Footer />
 			<BottomNav />
 		</>
 	);

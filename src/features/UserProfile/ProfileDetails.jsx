@@ -96,7 +96,7 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 					</Box>
 				</Flex>
 				<Text>{bio}</Text>
-				<Flex justifyContent="space-between" minW="80">
+				<Flex justifyContent="space-between" w="100%">
 					<Text>{`${userPostsLength} Post${
 						userPostsLength === 1 ? "" : "s"
 					}`}</Text>

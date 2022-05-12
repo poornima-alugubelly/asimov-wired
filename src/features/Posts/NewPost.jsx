@@ -83,7 +83,9 @@ export const NewPost = ({ close = null }) => {
 					</CircularProgress>
 					<Button
 						onClick={submitHandler}
-						isDisabled={content.length === 0 || content.length > 300}
+						isDisabled={
+							content.trim().length === 0 || content.trim().length > 300
+						}
 					>
 						Post
 					</Button>

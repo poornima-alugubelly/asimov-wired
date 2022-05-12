@@ -16,7 +16,7 @@ export const Search = () => {
 	const { allUsers } = useSelector((state) => state.users);
 	const colorToggler = useColorToggler();
 	const [searchText, setSearchText] = useState("");
-	const searchedUsers = getSearchedUsers(allUsers, searchText);
+	const searchedUsers = getSearchedUsers(allUsers, searchText.trim());
 
 	return (
 		<Box w={[40, "xs", "sm", "md"]}>
