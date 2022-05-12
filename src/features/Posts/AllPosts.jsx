@@ -11,7 +11,6 @@ export const AllPosts = () => {
 	const colorToggler = useColorToggler();
 	const dispatch = useDispatch();
 	let { allPosts, sortBy } = useSelector((state) => state.posts);
-	console.log("allposts", allPosts);
 	const {
 		user: { following, username },
 	} = useSelector((state) => state.auth);
