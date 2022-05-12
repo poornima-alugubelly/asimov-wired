@@ -406,7 +406,7 @@ export const posts = [
 		username: "adarshbalika",
 		firstName: "Adarsh",
 		lastName: "Balika",
-		createdAt: new Date("April 27 2022 12:31:25"),
+		createdAt: new Date("May 12 2022 10:31:25"),
 		updatedAt: formatDate(),
 		avatarURL:
 			"https://res.cloudinary.com/dodkrr6ce/image/upload/v1652181891/socmedia/pic1_jwkxzf.jpg",

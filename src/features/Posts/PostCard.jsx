@@ -38,6 +38,7 @@ import {
 } from "./postSlice";
 import { postCard, flexSpaceBetween } from "../../styles";
 import { checkItemPresent } from "../../helpers/checkItemPresent";
+import { getTimeDifference } from "../../helpers/getTimeDifference";
 
 export const PostCard = ({ postDetails }) => {
 	const dispatch = useDispatch();
@@ -79,9 +80,9 @@ export const PostCard = ({ postDetails }) => {
 							<Text color="gray">{`@${postDetails?.username}`}</Text>
 						</HStack>
 						<Text color="gray">•</Text>{" "}
-						<Text color="gray">{`${new Date(
-							postDetails?.createdAt
-						).toLocaleDateString()}`}</Text>
+						<Text color="gray">
+							{getTimeDifference(postDetails?.createdAt)}
+						</Text>
 					</HStack>
 				</Link>
 
