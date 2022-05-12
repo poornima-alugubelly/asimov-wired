@@ -6,6 +6,8 @@ import {
 	InputRightElement,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { UserHorizontalCard } from "..";
@@ -14,10 +16,13 @@ import { useState } from "react";
 import { getSearchedUsers } from "../../helpers/getSearchedUsers";
 export const Search = () => {
 	const { allUsers } = useSelector((state) => state.users);
+	const { pathname } = useLocation();
 	const colorToggler = useColorToggler();
 	const [searchText, setSearchText] = useState("");
 	const searchedUsers = getSearchedUsers(allUsers, searchText.trim());
-
+	useEffect(() => {
+		setSearchText("");
+	}, [pathname]);
 	return (
 		<Box w={[40, "xs", "sm", "md"]}>
 			<InputGroup w="100%" m="2" position="relative">
