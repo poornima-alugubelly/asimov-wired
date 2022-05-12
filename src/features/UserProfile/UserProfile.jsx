@@ -8,6 +8,7 @@ import { ProfileDetails } from "./ProfileDetails";
 import { PostCard } from "..";
 import { postsGridContainer } from "../../styles";
 import { sortByDate } from "../../helpers/sortByDate";
+import { getUserPost } from "./userProfileSlice";
 
 export const UserProfile = () => {
 	const colorToggler = useColorToggler();
@@ -17,16 +18,16 @@ export const UserProfile = () => {
 	useEffect(() => {
 		if (dispatch) {
 			dispatch(getUser({ username }));
+			dispatch(getUserPost({ username }));
 		}
 
 		return () => {
 			dispatch(resetProfile());
 		};
 	}, [username, dispatch]);
-	let { userToDisplay } = useProfile();
+	let { userToDisplay, userPosts } = useProfile();
 	let { allPosts } = useSelector((state) => state.posts);
-
-	let userPosts = allPosts.filter((post) => post.username === username);
+	useEffect(() => dispatch(getUserPost({ username })), [allPosts]);
 	userPosts = sortByDate(userPosts);
 
 	return (
