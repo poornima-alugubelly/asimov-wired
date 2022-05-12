@@ -12,32 +12,21 @@ export const getTimeDifference = (postDate) => {
 				if (days > 30) {
 					const months = Math.floor(days / 30);
 					if (months > 11) {
-						console.log(
-							datePosted.toLocaleDateString("en-us", {
-								day: "numeric",
-								year: "numeric",
-								month: "short",
-							})
-						);
 						return datePosted.toLocaleDateString("en-us", {
 							day: "numeric",
 							year: "numeric",
 							month: "short",
 						});
 					} else {
-						console.log(months);
 						return `${months}mo ago`;
 					}
 				} else {
-					console.log(days);
 					return `${days}d ago`;
 				}
 			} else {
-				console.log(hours);
 				return `${hours}h ago`;
 			}
 		} else {
-			console.log(min);
 			return `${min}min ago`;
 		}
 	} else {

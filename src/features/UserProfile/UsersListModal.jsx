@@ -14,7 +14,6 @@ import { useColorToggler } from "../../hooks/useColorToggler";
 export const UsersListModal = ({ usersList, setClose, modalTitle }) => {
 	const { isOpen, onClose } = useDisclosure({ isOpen: true });
 	const colorToggler = useColorToggler();
-	console.log(usersList);
 	return (
 		<Modal
 			isOpen={isOpen}

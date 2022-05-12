@@ -14,7 +14,7 @@ import { useState } from "react";
 import { AiOutlinePicture } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { createPost } from "../../features";
+import { createPost } from "./postSlice";
 import { postCard, flexSpaceBetween } from "../../styles";
 
 export const NewPost = ({ close = null }) => {

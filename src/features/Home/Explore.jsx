@@ -1,7 +1,7 @@
 import { GridItem, Box, Center } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { sortByDate } from "../../helpers/sortByDate";
-import { PostCard } from "./PostCard";
+import { PostCard } from "..";
 import { postsGridContainer } from "../../styles";
 import { useColorToggler } from "../../hooks/useColorToggler";
 

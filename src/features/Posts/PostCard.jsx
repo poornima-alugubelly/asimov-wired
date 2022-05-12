@@ -39,6 +39,7 @@ import {
 import { postCard, flexSpaceBetween } from "../../styles";
 import { checkItemPresent } from "../../helpers/checkItemPresent";
 import { getTimeDifference } from "../../helpers/getTimeDifference";
+import { checkUserPresent } from "../../helpers/checkUserPresent";
 
 export const PostCard = ({ postDetails }) => {
 	const dispatch = useDispatch();
@@ -61,6 +62,14 @@ export const PostCard = ({ postDetails }) => {
 			editPost({ token, postId: postDetails?._id, postData: postEdited })
 		);
 		setIsEditing(false);
+	};
+
+	const likedUsersInfo = () => {
+		const { likeCount, likedBy } = postDetails?.likes;
+		if (likeCount === 0) return "";
+		if (likeCount === 1) return `Liked by ${likedBy[0].username}`;
+		return `Liked by ${postDetails?.likes?.likedBy[0]?.username} and
+		${postDetails?.likes?.likeCount - 1} others`;
 	};
 
 	return (
@@ -152,7 +161,7 @@ export const PostCard = ({ postDetails }) => {
 			<Box w="full">
 				<Box display="flex" justifyContent="space-between">
 					<HStack>
-						{checkItemPresent(postDetails?.id, postDetails?.likes?.likedBy) ? (
+						{checkUserPresent(currUser, postDetails?.likes.likedBy) ? (
 							<IconButton
 								icon={<AiFillHeart className="icon-btn" />}
 								variant="iconButton"
@@ -217,8 +226,7 @@ export const PostCard = ({ postDetails }) => {
 						)
 					}
 				>
-					{`Liked by ${postDetails?.likes?.likedBy[0]?.username} and
-					${postDetails?.likes?.likeCount - 1} others`}
+					{likedUsersInfo()}
 				</ChakraLink>
 			</Box>
 		</VStack>

@@ -8,16 +8,9 @@ import {
 	MenuButton,
 	MenuList,
 	MenuItem,
-	MenuItemOption,
-	MenuGroup,
-	MenuOptionGroup,
-	MenuDivider,
-	Icon,
 } from "@chakra-ui/react";
-import { FiChevronDown } from "react-icons/fi";
 import { BiTrendingUp } from "react-icons/bi";
 import { BsChevronDown } from "react-icons/bs";
-import { MdDateRange } from "react-icons/md";
 import { useColorToggler } from "../../../hooks/useColorToggler";
 import { useDispatch } from "react-redux";
 import { sortByValue } from "../../../features";
