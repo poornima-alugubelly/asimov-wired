@@ -16,3 +16,4 @@ export { LikesListModal } from "./Posts/LikesListModal";
 export { Explore } from "./Posts/Explore";
 export { NewPostModal } from "./Posts/NewPostModal";
 export { Comments } from "./Posts/Comments";
+export { Search } from "./Users/Search";

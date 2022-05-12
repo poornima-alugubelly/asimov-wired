@@ -5,11 +5,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { AppRoutes } from "./routes/AppRoutes";
 import { LikesListModal } from "./features";
 import { useSelector } from "react-redux";
+import { ScrollToTop } from "./components";
 
 export const App = () => {
 	const { openLikesList, likesList } = useSelector((state) => state.posts);
 	return (
 		<Box h="100vh">
+			<ScrollToTop />
 			<AppRoutes />
 			{openLikesList && <LikesListModal usersList={likesList} />}
 			<ToastContainer theme="colored" autoClose={1000} position="bottom-left" />

@@ -1,21 +1,15 @@
-import {
-	Box,
-	Input,
-	InputGroup,
-	InputRightElement,
-	IconButton,
-	Flex,
-	Avatar,
-} from "@chakra-ui/react";
+import { Box, IconButton, Flex, Avatar } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
-import { BsFillSunFill, BsSearch, BsFillMoonStarsFill } from "react-icons/bs";
+import { BsFillSunFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useColorToggler } from "../hooks/useColorToggler";
+import { Search } from "../features";
 
 export const NavBar = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
 	const colorToggler = useColorToggler();
+	const navigate = useNavigate();
 	const {
 		token,
 		user: { username, firstName, lastName, avatarURL },
@@ -47,21 +41,19 @@ export const NavBar = () => {
 				>
 					<Link to="/">AW</Link>
 				</Box>
-				<Link to={`/profile/${username}`} state={{ pageToShow: "profile" }}>
-					<Avatar
-						name={`${firstName} ${lastName}`}
-						display={["block", "none", "none", "none"]}
-						src={avatarURL}
-					/>
-				</Link>
 
-				<InputGroup w="md" m="2">
-					<Input placeholder="enter username"></Input>
-					<InputRightElement
-						pointerEvents="none"
-						children={<BsSearch />}
-					></InputRightElement>
-				</InputGroup>
+				<Avatar
+					name={`${firstName} ${lastName}`}
+					display={["block", "none", "none", "none"]}
+					src={avatarURL}
+					onClick={() =>
+						navigate(`/profile/${username}`, {
+							state: { pageToShow: "profile" },
+						})
+					}
+				/>
+
+				<Search />
 
 				<IconButton
 					icon={
