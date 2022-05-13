@@ -13,8 +13,8 @@ export const AllPosts = () => {
 	let { allPosts, sortBy } = useSelector((state) => state.posts);
 	const [pageNum, setPageNum] = useState(0);
 	const totalPages = Math.ceil(allPosts.length / 4);
-	const [lastElement, setLastElement] = useState(null);
 	const loader = useRef(null);
+	const [loading, setLoading] = useState(false);
 	const {
 		user: { following, username },
 	} = useSelector((state) => state.auth);
@@ -29,7 +29,6 @@ export const AllPosts = () => {
 			allPosts = sortByDate(userFeed);
 		}
 	}
-	console.log(pageNum, totalPages);
 
 	useEffect(() => {
 		const elementRef = loader.current;
@@ -39,6 +38,8 @@ export const AllPosts = () => {
 				target.isIntersecting &&
 				(pageNum < totalPages || (pageNum === 0 && totalPages === 0))
 			) {
+				setLoading(true);
+
 				setPageNum((prev) => prev + 1);
 			}
 		};
@@ -50,14 +51,15 @@ export const AllPosts = () => {
 			observer.unobserve(elementRef);
 		};
 	}, []);
-
+	console.log(loading);
+	useEffect(() => setTimeout(() => setLoading(false), 1100), [pageNum]);
 	const postsToShow = allPosts.slice(0, pageNum * 4);
 
 	useEffect(() => dispatch(getPosts()), []);
 	console.log(postsToShow);
 	return (
 		<>
-			{postsToShow?.map((post) => (
+			{allPosts.slice(0, (pageNum - 1) * 4)?.map((post) => (
 				<Box
 					borderBottom={"1px solid"}
 					borderBottomColor={colorToggler(600)}
@@ -69,6 +71,24 @@ export const AllPosts = () => {
 					</Center>
 				</Box>
 			))}
+			{loading ? (
+				<Center py="10">
+					<Spinner size="lg" color={colorToggler(400)} />
+				</Center>
+			) : (
+				allPosts.slice((pageNum - 1) * 4, pageNum * 4).map((post) => (
+					<Box
+						borderBottom={"1px solid"}
+						borderBottomColor={colorToggler(600)}
+						key={post.id}
+					>
+						<Center>
+							<PostCard postDetails={post} />
+							<Box></Box>
+						</Center>
+					</Box>
+				))
+			)}
 			<div ref={loader}></div>
 		</>
 	);

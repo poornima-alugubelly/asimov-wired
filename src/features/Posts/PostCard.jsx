@@ -15,8 +15,16 @@ import {
 	Textarea,
 	Button,
 	Link as ChakraLink,
+	FormControl,
+	FormLabel,
+	Icon,
 } from "@chakra-ui/react";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import {
+	AiOutlineHeart,
+	AiFillHeart,
+	AiFillCloseCircle,
+	AiOutlinePicture,
+} from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
@@ -56,10 +64,36 @@ export const PostCard = ({ postDetails }) => {
 		bookmarkedPosts.find((bookmarkId) => bookmarkId === postDetails?._id);
 	const colorToggler = useColorToggler();
 
-	const saveHandler = () => {
-		dispatch(
-			editPost({ token, postId: postDetails?._id, postData: postEdited })
-		);
+	const saveHandler = async () => {
+		if (postEdited.postImage === "") {
+			dispatch(
+				editPost({ token, postId: postDetails?._id, postData: postEdited })
+			);
+		} else {
+			const data = new FormData();
+			data.append("file", postEdited.postImage);
+			data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_API_KEY);
+			const requestOptions = {
+				method: "POST",
+				body: data,
+			};
+			await fetch(
+				"https://api.cloudinary.com/v1_1/dodkrr6ce/image/upload",
+				requestOptions
+			)
+				.then((response) => response.json())
+				.then((json) => {
+					dispatch(
+						createPost({
+							token,
+							postData: { content: postEdited.content, postImage: json.url },
+						})
+					);
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		}
 		setIsEditing(false);
 	};
 
@@ -138,9 +172,33 @@ export const PostCard = ({ postDetails }) => {
 						}
 					></Textarea>{" "}
 					<Box>
+						<FormControl width="1rem">
+							<FormLabel
+								position="absolute"
+								left="0"
+								bottom="0"
+								cursor="pointer"
+								marginBottom="0"
+							>
+								<Icon as={AiOutlinePicture} fontSize={"30"} />
+							</FormLabel>
+							<Input
+								type="file"
+								visibility="hidden"
+								accept="image/*"
+								onChange={(e) =>
+									setPostEdited((prev) => ({
+										...prev,
+										postImage: e.target.files[0],
+									}))
+								}
+							/>
+						</FormControl>
 						<Button
 							onClick={saveHandler}
-							isDisabled={postEdited.content.length === 0}
+							isDisabled={
+								postEdited.content.length === 0 && postEdited.postImage === ""
+							}
 						>
 							Save
 						</Button>{" "}
@@ -150,18 +208,32 @@ export const PostCard = ({ postDetails }) => {
 					</Box>
 				</VStack>
 			) : (
-				<Text>{postDetails?.content}</Text>
+				<Text>{postEdited?.content}</Text>
 			)}
-			{/* {image && (
-				<Box w="full">
+			{postEdited?.postImage && (
+				<Box w="full" h="500" position="relative">
 					<Image
-						src="https://bit.ly/dan-abramov"
-						alt="Dan Abramov"
-						w="80%"
-						borderRadius="30"
+						src={URL.createObjectURL(postEdited?.postImage)}
+						alt="uploaded post"
+						w="100%"
+						h="500"
+						objectFit={"contain"}
 					/>
+					{isEditing && (
+						<IconButton
+							position="absolute"
+							top="-2"
+							right="4%"
+							icon={<AiFillCloseCircle />}
+							variant="iconButton"
+							fontSize={"30"}
+							onClick={() =>
+								setPostEdited((prev) => ({ ...prev, postImage: "" }))
+							}
+						/>
+					)}
 				</Box>
-			)} */}
+			)}
 			<Box w="full">
 				<Box display="flex" justifyContent="space-between">
 					<HStack>
