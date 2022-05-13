@@ -5,11 +5,25 @@ import {
 	unfollowUserService,
 	updateUserService,
 	getUserPostService,
+	getAllUserService,
 } from "../../services/userServices";
+
 import { useSelector } from "react-redux";
 
+export const getAllUsers = createAsyncThunk(
+	"users/getAllUsers",
+	async (_, { rejectWithValue }) => {
+		try {
+			const res = await getAllUserService();
+			return res.data;
+		} catch (err) {
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
 export const getUser = createAsyncThunk(
-	"userProfile/getUser",
+	"users/getUser",
 	async ({ username }, { rejectWithValue }) => {
 		try {
 			const response = await getUserService(username);
@@ -21,7 +35,7 @@ export const getUser = createAsyncThunk(
 );
 
 export const getUserPost = createAsyncThunk(
-	"userProfile/getUserPost",
+	"users/getUserPost",
 	async ({ username }, { rejectWithValue }) => {
 		try {
 			const response = await getUserPostService(username);
@@ -33,7 +47,7 @@ export const getUserPost = createAsyncThunk(
 );
 
 export const followUser = createAsyncThunk(
-	"userProfile/followUser",
+	"users/followUser",
 	async ({ followUserId, token }, { rejectWithValue }) => {
 		try {
 			const response = await followUserService(followUserId, token);
@@ -44,7 +58,7 @@ export const followUser = createAsyncThunk(
 	}
 );
 export const unfollowUser = createAsyncThunk(
-	"userProfile/unfollowUser",
+	"users/unfollowUser",
 	async ({ followUserId, token }, { rejectWithValue }) => {
 		try {
 			const response = await unfollowUserService(followUserId, token);
@@ -56,11 +70,11 @@ export const unfollowUser = createAsyncThunk(
 );
 
 export const updateUser = createAsyncThunk(
-	"userProfile/updatePost",
+	"users/updatePost",
 	async ({ formVal: userData, token }, { rejectWithValue }) => {
 		try {
 			const response = await updateUserService(userData, token);
-			return response.data;
+			return response.data.user;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
 		}
@@ -69,9 +83,10 @@ export const updateUser = createAsyncThunk(
 const initialState = {
 	userToDisplay: null,
 	userPosts: [],
+	allUsers: [],
 };
-const userProfileSlice = createSlice({
-	name: "userProfile",
+const usersSlice = createSlice({
+	name: "users",
 	initialState,
 	reducers: {
 		resetProfile: (state) => {
@@ -93,7 +108,10 @@ const userProfileSlice = createSlice({
 			console.log(payload);
 		},
 		[updateUser.fulfilled]: (state, { payload }) => {
-			state.userToDisplay = payload.user;
+			state.allUsers = state.allUsers.map((user) =>
+				user.username === payload.username ? payload : user
+			);
+			state.userToDisplay = payload;
 		},
 		[updateUser.rejected]: (state, { payload }) => {
 			console.log(payload);
@@ -110,9 +128,16 @@ const userProfileSlice = createSlice({
 		[unfollowUser.rejected]: (state, { payload }) => {
 			console.log(payload);
 		},
+		[getAllUsers.fulfilled]: (state, { payload }) => {
+			console.log("here");
+			state.allUsers = payload.users;
+		},
+		[getAllUsers.rejected]: (state, { payload }) => {
+			console.log(payload);
+		},
 	},
 });
 
-export const userProfileReducer = userProfileSlice.reducer;
-export const { resetProfile } = userProfileSlice.actions;
-export const useProfile = () => useSelector((state) => state.userProfile);
+export const usersReducer = usersSlice.reducer;
+export const { resetProfile } = usersSlice.actions;
+export const useProfile = () => useSelector((state) => state.users);

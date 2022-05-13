@@ -23,7 +23,7 @@ import { toast } from "react-toastify";
 import { BsFillCameraFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useColorToggler } from "../../hooks/useColorToggler";
-import { updateUser, useProfile } from "../../features";
+import { updateUser, useProfile } from "..";
 
 export const EditProfileForm = () => {
 	const dispatch = useDispatch();

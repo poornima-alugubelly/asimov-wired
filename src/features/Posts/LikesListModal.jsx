@@ -34,7 +34,7 @@ export const LikesListModal = ({ usersList }) => {
 				border="1px solid"
 				borderColor={colorToggler(400)}
 			>
-				<ModalHeader>Modal Title</ModalHeader>
+				<ModalHeader>Liked By</ModalHeader>
 				<ModalCloseButton
 					bg="transparent"
 					_focus={{

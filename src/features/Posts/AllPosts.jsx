@@ -1,20 +1,18 @@
-import { Box, Center, Spinner } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { getPosts, PostCard } from "../index";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sortByDate } from "../../helpers/sortByDate";
 import { getUserFeed } from "../../helpers/getUserFeed";
 import { getTrendingPosts } from "../../helpers/getTrendingPosts";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 
 export const AllPosts = () => {
 	const colorToggler = useColorToggler();
 	const dispatch = useDispatch();
 	let { allPosts, sortBy } = useSelector((state) => state.posts);
-	const [pageNum, setPageNum] = useState(0);
-	const totalPages = Math.ceil(allPosts.length / 4);
-	const loader = useRef(null);
-	const [loading, setLoading] = useState(false);
+	const lastElement = useRef(null);
 	const {
 		user: { following, username },
 	} = useSelector((state) => state.auth);
@@ -30,36 +28,17 @@ export const AllPosts = () => {
 		}
 	}
 
-	useEffect(() => {
-		const elementRef = loader.current;
-		const handleObserver = (entries) => {
-			const target = entries[0];
-			if (
-				target.isIntersecting &&
-				(pageNum < totalPages || (pageNum === 0 && totalPages === 0))
-			) {
-				setLoading(true);
-
-				setPageNum((prev) => prev + 1);
-			}
-		};
-		const observer = new IntersectionObserver(handleObserver);
-		if (elementRef) {
-			observer.observe(elementRef);
-		}
-		return () => {
-			observer.unobserve(elementRef);
-		};
-	}, []);
-	console.log(loading);
-	useEffect(() => setTimeout(() => setLoading(false), 1100), [pageNum]);
-	const postsToShow = allPosts.slice(0, pageNum * 4);
-
+	let { pageNum } = useInfiniteScroll({ allPosts, lastElement });
+	console.log("pageNum", pageNum);
+	console.log(
+		allPosts.slice(0, (pageNum - 1) * 6),
+		allPosts.slice((pageNum - 1) * 6, pageNum * 6)
+	);
 	useEffect(() => dispatch(getPosts()), []);
-	console.log(postsToShow);
+	const postsToShow = allPosts.slice(0, pageNum * 6);
 	return (
 		<>
-			{allPosts.slice(0, (pageNum - 1) * 4)?.map((post) => (
+			{postsToShow?.map((post) => (
 				<Box
 					borderBottom={"1px solid"}
 					borderBottomColor={colorToggler(600)}
@@ -71,25 +50,7 @@ export const AllPosts = () => {
 					</Center>
 				</Box>
 			))}
-			{loading ? (
-				<Center py="10">
-					<Spinner size="lg" color={colorToggler(400)} />
-				</Center>
-			) : (
-				allPosts.slice((pageNum - 1) * 4, pageNum * 4).map((post) => (
-					<Box
-						borderBottom={"1px solid"}
-						borderBottomColor={colorToggler(600)}
-						key={post.id}
-					>
-						<Center>
-							<PostCard postDetails={post} />
-							<Box></Box>
-						</Center>
-					</Box>
-				))
-			)}
-			<div ref={loader}></div>
+			<div ref={lastElement}></div>
 		</>
 	);
 };

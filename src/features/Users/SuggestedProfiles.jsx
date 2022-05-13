@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserPresent } from "../../helpers/checkUserPresent";
 import { useColorToggler } from "../../hooks/useColorToggler";
-import { UserHorizontalCard } from "../UserProfile/UserHorizontalCard";
-import { getAllUsers } from "./userSlice";
+import { UserHorizontalCard } from "./UserHorizontalCard";
+import { getAllUsers } from "./usersSlice";
 
 export const SuggestedProfiles = () => {
 	const colorToggler = useColorToggler();
@@ -21,7 +21,7 @@ export const SuggestedProfiles = () => {
 				!checkUserPresent(user.username, following) &&
 				username !== user.username
 		)
-		.slice(0, 5);
+		.slice(0, 3);
 	return (
 		<Box maxH="600" h="min" overflowY={"auto"}>
 			<Text mb="2" fontSize="xl">

@@ -7,12 +7,18 @@ import {
 	Button,
 	Flex,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { checkUserPresent } from "../../helpers/checkUserPresent";
 
 export const UserHorizontalCard = ({ usersList }) => {
+	const { allUsers } = useSelector((state) => state.users);
+	const usersToShow = usersList.filter((user) =>
+		checkUserPresent(user.username, allUsers)
+	);
 	return (
 		<UnorderedList spacing="4" pr="6">
-			{usersList.map((user) => (
+			{usersToShow.map((user) => (
 				<Link
 					to={`/profile/${user.username}`}
 					state={{ pageToShow: "profile" }}

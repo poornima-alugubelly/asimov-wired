@@ -1,6 +1,6 @@
 import { GridItem, Center, Box, Image } from "@chakra-ui/react";
 import { useColorToggler } from "../../hooks/useColorToggler";
-import { getUser, useProfile, resetProfile } from "./userProfileSlice";
+import { getUser, useProfile, resetProfile } from "./usersSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -8,7 +8,7 @@ import { ProfileDetails } from "./ProfileDetails";
 import { PostCard } from "..";
 import { postsGridContainer } from "../../styles";
 import { sortByDate } from "../../helpers/sortByDate";
-import { getUserPost } from "./userProfileSlice";
+import { getUserPost } from "./usersSlice";
 
 export const UserProfile = () => {
 	const colorToggler = useColorToggler();

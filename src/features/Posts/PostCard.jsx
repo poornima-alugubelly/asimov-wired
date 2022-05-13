@@ -47,6 +47,7 @@ import {
 import { postCard, flexSpaceBetween } from "../../styles";
 import { getTimeDifference } from "../../helpers/getTimeDifference";
 import { checkUserPresent } from "../../helpers/checkUserPresent";
+import { AvatarCard } from "../Users/AvatarCard";
 
 export const PostCard = ({ postDetails }) => {
 	const dispatch = useDispatch();
@@ -113,10 +114,7 @@ export const PostCard = ({ postDetails }) => {
 					state={{ pageToShow: "profile" }}
 				>
 					<HStack spacing="2">
-						<Avatar
-							name={`{${postDetails?.firstName} ${postDetails?.lastName}}`}
-							src={postDetails?.avatarURL}
-						/>
+						<AvatarCard username={postDetails?.username} />
 						<HStack spacing="1">
 							<Text>{`${postDetails?.firstName} ${postDetails?.lastName}`}</Text>
 							<Text color="gray">{`@${postDetails?.username}`}</Text>
@@ -128,7 +126,7 @@ export const PostCard = ({ postDetails }) => {
 					</HStack>
 				</Link>
 
-				{postDetails?.username === currUser && currPage && (
+				{postDetails?.username === currUser && currPage === "profile" && (
 					<Menu>
 						<MenuButton
 							as={IconButton}
@@ -202,7 +200,17 @@ export const PostCard = ({ postDetails }) => {
 						>
 							Save
 						</Button>{" "}
-						<Button variant={"outline"} onClick={() => setIsEditing(false)}>
+						<Button
+							variant={"outline"}
+							onClick={() => {
+								setIsEditing(false);
+								setPostEdited((prev) => ({
+									...prev,
+									content: postDetails?.content,
+									postImage: postDetails?.postImage,
+								}));
+							}}
+						>
 							Cancel
 						</Button>
 					</Box>
@@ -213,7 +221,11 @@ export const PostCard = ({ postDetails }) => {
 			{postEdited?.postImage && (
 				<Box w="full" h="500" position="relative">
 					<Image
-						src={URL.createObjectURL(postEdited?.postImage)}
+						src={
+							typeof postEdited?.postImage === "string"
+								? postEdited?.postImage
+								: URL.createObjectURL(postEdited?.postImage)
+						}
 						alt="uploaded post"
 						w="100%"
 						h="500"
