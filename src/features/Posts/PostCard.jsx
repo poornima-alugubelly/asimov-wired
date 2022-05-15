@@ -115,10 +115,6 @@ export const PostCard = ({ postDetails }) => {
 				>
 					<HStack spacing="2">
 						<AvatarCard username={postDetails?.username} />
-						<HStack spacing="1">
-							<Text>{`${postDetails?.firstName} ${postDetails?.lastName}`}</Text>
-							<Text color="gray">{`@${postDetails?.username}`}</Text>
-						</HStack>
 						<Text color="gray">•</Text>{" "}
 						<Text color="gray">
 							{getTimeDifference(postDetails?.createdAt)}

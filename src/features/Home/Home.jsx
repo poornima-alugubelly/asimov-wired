@@ -19,6 +19,7 @@ import { NavBar } from "../../components/NavBar";
 import { BottomNav } from "../../components/BottomNav";
 import { Footer } from "../../components/Footer";
 import { getAllUsers } from "..";
+import { SortButtons } from "./components/SortButtons";
 
 export const Home = () => {
 	const colorToggler = useColorToggler();
@@ -49,6 +50,13 @@ export const Home = () => {
 									{...postsGridContainer}
 									borderColor={colorToggler(400)}
 								>
+									<Center
+										display={["block", "block", "block", "none"]}
+										borderBottom={"1px solid"}
+										borderBottomColor={colorToggler(600)}
+									>
+										<SortButtons />
+									</Center>
 									<Box
 										borderBottom={"1px solid"}
 										borderBottomColor={colorToggler(600)}

@@ -21,7 +21,7 @@ export const AllPosts = () => {
 	} else {
 		const userFeed = getUserFeed(allPosts, following, username);
 
-		if (sortBy === "oldest") {
+		if (sortBy === "Oldest") {
 			allPosts = sortByDate(userFeed, true);
 		} else {
 			allPosts = sortByDate(userFeed);
@@ -46,7 +46,6 @@ export const AllPosts = () => {
 				>
 					<Center>
 						<PostCard postDetails={post} />
-						<Box></Box>
 					</Center>
 				</Box>
 			))}
