@@ -35,11 +35,11 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 		following,
 		bio,
 		portfolio,
-		_id: followUserId,
+		_id,
 	} = user;
 
 	const {
-		user: { username, id: userId },
+		user: { username, id },
 		token,
 	} = useSelector((state) => state.auth);
 
@@ -78,7 +78,8 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 							) : checkUserPresent(username, followers) ? (
 								<Button
 									onClick={() =>
-										dispatch && dispatch(unfollowUser({ followUserId, token }))
+										dispatch &&
+										dispatch(unfollowUser({ followUserId: user._id, token }))
 									}
 								>
 									unfollow
@@ -86,7 +87,8 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 							) : (
 								<Button
 									onClick={() =>
-										dispatch && dispatch(followUser({ followUserId, token }))
+										dispatch &&
+										dispatch(followUser({ followUserId: user._id, token }))
 									}
 								>
 									follow

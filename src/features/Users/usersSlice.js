@@ -117,12 +117,26 @@ const usersSlice = createSlice({
 			console.log(payload);
 		},
 		[followUser.fulfilled]: (state, { payload }) => {
+			const { user, followUser } = payload;
+			state.allUsers = state.allUsers.map((currUser) =>
+				currUser.username === user.username ? user : currUser
+			);
+			state.allUsers = state.allUsers.map((currUser) =>
+				currUser.username === followUser.username ? followUser : currUser
+			);
 			state.userToDisplay = payload.followUser;
 		},
 		[followUser.rejected]: (state, { payload }) => {
 			console.log(payload);
 		},
 		[unfollowUser.fulfilled]: (state, { payload }) => {
+			const { user, followUser } = payload;
+			state.allUsers = state.allUsers.map((currUser) =>
+				currUser.username === user.username ? user : currUser
+			);
+			state.allUsers = state.allUsers.map((currUser) =>
+				currUser.username === followUser.username ? followUser : currUser
+			);
 			state.userToDisplay = payload.followUser;
 		},
 		[unfollowUser.rejected]: (state, { payload }) => {
