@@ -46,7 +46,6 @@ export const UserHorizontalCard = ({ usersList }) => {
 								<Text>{`${user.firstName} ${user.lastName}`}</Text>
 								<Text color="gray">{`@${user.username}`}</Text>
 							</Box>
-							<Button variant={"outline"}></Button>
 						</Flex>
 					</ListItem>
 				</Link>

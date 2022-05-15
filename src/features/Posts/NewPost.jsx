@@ -30,7 +30,7 @@ export const NewPost = ({ close = null }) => {
 		content: "",
 		postImage: "",
 	});
-
+	console.log(postData.postImage);
 	const { content, postImage } = postData;
 	const dispatch = useDispatch();
 	const {
@@ -96,10 +96,10 @@ export const NewPost = ({ close = null }) => {
 					setPostData((prev) => ({ ...prev, content: e.target.value }))
 				}
 			></Textarea>
-			{postData.postImage !== "" && (
+			{postData.postImage && (
 				<Box w="full" h="500" position="relative">
 					<Image
-						src={URL.createObjectURL(postImage)}
+						src={URL.createObjectURL(postData.postImage)}
 						alt="uploaded post"
 						w="100%"
 						h="500"
