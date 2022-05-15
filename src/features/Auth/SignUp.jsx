@@ -35,33 +35,49 @@ export const SignUp = () => {
 	const { token, user, authStatus, authError } = useSelector(
 		(state) => state.auth
 	);
+	const [formErrors, setFormErrors] = useState({
+		firstNameError: "",
+		lastNameError: "",
+		emailError: "",
+		usernameError: "",
+		passwordError: "",
+	});
+	let {
+		firstNameError,
+		lastNameError,
+		emailError,
+		usernameError,
+		passwordError,
+	} = formErrors;
 	const validityChecker = () => {
-		if (firstName === "" || /^[a-z0-9_.]+$/.test(firstName)) {
-			return false;
+		if (firstName === "" || !/^[a-zA-Z]+$/.test(firstName)) {
+			formErrors.firstNameError = "Invalid firstname";
 		}
-		if (lastName === "" || /^[a-z0-9_.]+$/.test(lastName)) {
-			return false;
+		if (lastName === "" || !/^[a-zA-Z]+$/.test(lastName)) {
+			formErrors.lastNameError = "Invalid lastname";
 		}
-		if (email === "" || /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email)) {
-			return false;
+		if (email === "" || !/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email)) {
+			formErrors.emailError = "invalid email";
 		}
-		if (username === "" || /^[a-z0-9_.]+$/.test(username)) {
-			return false;
+		if (username === "" || !/^[a-z0-9_.]+$/.test(username)) {
+			formErrors.usernameError = "invalid usernameError";
 		}
-		if (
-			password === "" ||
-			/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)
-		) {
+		if (password === "" || !/^(?=.*\d).{8,}$/.test(password)) {
+			formErrors.passwordError =
+				"Password should be atleast 8 characters in length";
+		}
+		if (Object.values(formErrors).some((x) => x !== "")) {
 			return false;
 		}
 		return true;
 	};
-	console.log(authError);
+
 	const navigate = useNavigate();
 	const [submitted, setSubmitted] = useState(false);
 	const signUpHandler = async (e, formVal) => {
 		e.preventDefault();
 		if (!validityChecker()) {
+			setFormErrors(formErrors);
 			setSubmitted(true);
 		} else {
 			const res = await dispatch(signupUser(formVal));
@@ -106,12 +122,7 @@ export const SignUp = () => {
 					</Text>
 				</Center>
 				<VStack spacing="4">
-					<FormControl
-						isRequired
-						isInvalid={
-							firstName === "" || (/^[a-z0-9_.]+$/.test(firstName) && submitted)
-						}
-					>
+					<FormControl isRequired isInvalid={firstNameError && submitted}>
 						<FormLabel htmlFor="firstName" isRequired mb="0">
 							First Name
 						</FormLabel>
@@ -123,19 +134,13 @@ export const SignUp = () => {
 								setFormVal((prev) => ({ ...prev, firstName: e.target.value }))
 							}
 						/>
-						{firstName === "" ||
-						(/^[a-z0-9_.]+$/.test(firstName) && submitted) ? (
-							<FormErrorMessage color="red">
-								Enter a valid first name
-							</FormErrorMessage>
+						{firstNameError && submitted ? (
+							<FormErrorMessage color="red">{firstNameError}</FormErrorMessage>
 						) : (
 							""
 						)}
 					</FormControl>
-					<FormControl
-						isRequired
-						isInvalid={lastName === "" || /^[a-z0-9_.]+$/.test(lastName)}
-					>
+					<FormControl isRequired isInvalid={lastNameError && submitted}>
 						<FormLabel htmlFor="lastName" isRequired mb="0">
 							Last Name
 						</FormLabel>
@@ -147,19 +152,13 @@ export const SignUp = () => {
 								setFormVal((prev) => ({ ...prev, lastName: e.target.value }))
 							}
 						/>
-						{lastName === "" ||
-						(/^[a-z0-9_.]+$/.test(lastName) && submitted) ? (
-							<FormErrorMessage color="red">
-								Enter a valid lastname
-							</FormErrorMessage>
+						{lastNameError && submitted ? (
+							<FormErrorMessage color="red">{lastNameError}</FormErrorMessage>
 						) : (
 							""
 						)}
 					</FormControl>
-					<FormControl
-						isRequired
-						isInvalid={email === "" || /^[a-z0-9_.]+$/.test(email)}
-					>
+					<FormControl isRequired isInvalid={emailError && submitted}>
 						<FormLabel htmlFor="email" isRequired mb="0">
 							Email
 						</FormLabel>
@@ -171,18 +170,13 @@ export const SignUp = () => {
 								setFormVal((prev) => ({ ...prev, email: e.target.value }))
 							}
 						/>
-						{email === "" || (/^[a-z0-9_.]+$/.test(email) && submitted) ? (
-							<FormErrorMessage color="red">
-								Enter a valid email
-							</FormErrorMessage>
+						{emailError && submitted ? (
+							<FormErrorMessage color="red">{emailError}</FormErrorMessage>
 						) : (
 							""
 						)}
 					</FormControl>
-					<FormControl
-						isRequired
-						isInvalid={username === "" || /^[a-z0-9_.]+$/.test(username)}
-					>
+					<FormControl isRequired isInvalid={usernameError && submitted}>
 						<FormLabel htmlFor="username" isRequired mb="0">
 							User Name
 						</FormLabel>
@@ -194,19 +188,13 @@ export const SignUp = () => {
 								setFormVal((prev) => ({ ...prev, username: e.target.value }))
 							}
 						/>
-						{username === "" ||
-						(/^[a-z0-9_.]+$/.test(username) && submitted) ? (
-							<FormErrorMessage color="red">
-								Enter a valid username
-							</FormErrorMessage>
+						{usernameError && submitted ? (
+							<FormErrorMessage color="red">{usernameError}</FormErrorMessage>
 						) : (
 							""
 						)}
 					</FormControl>
-					<FormControl
-						isRequired
-						isInvalid={password === "" || /^[a-z0-9_.]+$/.test(password)}
-					>
+					<FormControl isRequired isInvalid={passwordError && submitted}>
 						<FormLabel htmlFor="password" mb="0">
 							Password
 						</FormLabel>
@@ -229,11 +217,8 @@ export const SignUp = () => {
 								}
 							/>
 						</InputGroup>
-						{password === "" ||
-						(/^[a-z0-9_.]+$/.test(password) && submitted) ? (
-							<FormErrorMessage color="red">
-								Enter a valid password
-							</FormErrorMessage>
+						{passwordError && submitted ? (
+							<FormErrorMessage color="red">{passwordError}</FormErrorMessage>
 						) : (
 							""
 						)}
