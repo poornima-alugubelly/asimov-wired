@@ -29,11 +29,6 @@ export const AllPosts = () => {
 	}
 
 	let { pageNum } = useInfiniteScroll({ allPosts, lastElement });
-	console.log("pageNum", pageNum);
-	console.log(
-		allPosts.slice(0, (pageNum - 1) * 6),
-		allPosts.slice((pageNum - 1) * 6, pageNum * 6)
-	);
 	useEffect(() => dispatch(getPosts()), []);
 	const postsToShow = allPosts.slice(0, pageNum * 6);
 	return (

@@ -1,15 +1,4 @@
-import {
-	Box,
-	Button,
-	Center,
-	Flex,
-	Text,
-	Menu,
-	MenuButton,
-	MenuList,
-	MenuItem,
-	Select,
-} from "@chakra-ui/react";
+import { Button, Flex, Select } from "@chakra-ui/react";
 import { BiTrendingUp } from "react-icons/bi";
 import { BsChevronDown } from "react-icons/bs";
 import { useDispatch } from "react-redux";
@@ -58,26 +47,6 @@ export const SortButtons = () => {
 
 				<option value="Newest">Newest Posts</option>
 			</Select>
-			{/* <Menu>
-				
-				<MenuButton as={Button} rightIcon={<BsChevronDown />}>
-					<Text> Date Posted</Text>
-				</MenuButton>
-				<MenuList bgColor={colorToggler(800)}>
-					<MenuItem
-						onClick={() => dispatch(sortByValue("oldest"))}
-						_hover={{ bgColor: colorToggler(900) }}
-					>
-						Oldest
-					</MenuItem>
-					<MenuItem
-						onClick={() => dispatch(sortByValue("newest"))}
-						_hover={{ bgColor: colorToggler(900) }}
-					>
-						Newest
-					</MenuItem>
-				</MenuList>
-			</Menu> */}
 		</Flex>
 	);
 };

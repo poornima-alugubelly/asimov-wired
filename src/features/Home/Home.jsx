@@ -51,9 +51,12 @@ export const Home = () => {
 									borderColor={colorToggler(400)}
 								>
 									<Center
-										display={["block", "block", "block", "none"]}
+										display={["flex", "flex", "flex", "none"]}
 										borderBottom={"1px solid"}
 										borderBottomColor={colorToggler(600)}
+										w="100%"
+										bg={colorToggler(800)}
+										zIndex="100"
 									>
 										<SortButtons />
 									</Center>

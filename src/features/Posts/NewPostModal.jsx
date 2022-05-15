@@ -8,18 +8,31 @@ import {
 	ModalCloseButton,
 	useDisclosure,
 	Button,
+	IconButton,
 } from "@chakra-ui/react";
 import { NewPost } from "./NewPost";
 import { useColorToggler } from "../../hooks/useColorToggler";
+import { BsPencilSquare } from "react-icons/bs";
 
 export const NewPostModal = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const colorToggler = useColorToggler();
 	return (
 		<>
-			<Button onClick={onOpen} w="full">
+			<Button
+				onClick={onOpen}
+				w="full"
+				display={["none", "none", "block", "block"]}
+			>
 				Post
 			</Button>
+			<IconButton
+				onClick={onOpen}
+				icon={<BsPencilSquare />}
+				display={["block", "block", "none", "none"]}
+				variant="iconButton"
+				fontSize="xl"
+			></IconButton>
 
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
