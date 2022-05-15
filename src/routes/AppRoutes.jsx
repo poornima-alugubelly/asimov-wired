@@ -8,6 +8,7 @@ import {
 	Explore,
 	Comments,
 } from "../features";
+import { PageNotFound } from "../components/PageNotFound";
 import { PrivateRoutes } from "./PrivateRoutes";
 
 export const AppRoutes = () => {
@@ -21,7 +22,7 @@ export const AppRoutes = () => {
 					<Route path="/comments/:postId" element={<Comments />} />
 				</Route>
 			</Route>
-			<Route path="*" element={<p>page not found</p>} />
+			<Route path="*" element={<PageNotFound />} />
 			<Route path="/login" element={<Login />} />
 			<Route path="/signup" element={<SignUp />} />
 		</Routes>

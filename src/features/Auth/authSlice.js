@@ -64,11 +64,13 @@ const authSlice = createSlice({
 		},
 
 		[signupUser.fulfilled]: (state, { payload }) => {
+			console.log("signed up");
+			console.log(payload);
 			state.user = payload.createdUser;
 			state.token = payload.encodedToken;
 			state.authStatus = "success";
 			localStorage.setItem("tokenASM", JSON.stringify(payload.encodedToken));
-			localStorage.setItem("AsimovWUser", JSON.stringify(payload.foundUser));
+			localStorage.setItem("AsimovWUser", JSON.stringify(payload.createdUser));
 		},
 		[signupUser.rejected]: (state, { payload }) => {
 			state.authStatus = "rejected";

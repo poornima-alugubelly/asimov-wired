@@ -23,7 +23,7 @@ import { toast } from "react-toastify";
 import { BsFillCameraFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useColorToggler } from "../../hooks/useColorToggler";
-import { updateUser, useProfile } from "../../features";
+import { updateUser, useProfile } from "..";
 
 export const EditProfileForm = () => {
 	const dispatch = useDispatch();
@@ -38,6 +38,10 @@ export const EditProfileForm = () => {
 		if (Math.round(image.size / 1024000) > 2)
 			toast.error("File size should be less than 2MB");
 		else {
+			// reason to use formData here ,
+			// When you make a POST request, you have to encode the data that forms the body of the request in some way.
+			// we should use multipart/form-data (a type of encoding ) when  form includes any <input type="file"> elements
+			// formData can do this encoding
 			const data = new FormData();
 			data.append("file", image);
 			data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_API_KEY);

@@ -11,19 +11,24 @@ import {
 	sideNavGrid,
 	postsGridContainer,
 } from "../../styles";
-import { UserProfile } from "../UserProfile/UserProfile";
+import { UserProfile } from "../Users/UserProfile";
 import { Bookmarks } from "./Bookmarks";
 import { SortPosts } from "./components/SortPosts";
 import { Explore } from "./Explore";
 import { NavBar } from "../../components/NavBar";
 import { BottomNav } from "../../components/BottomNav";
 import { Footer } from "../../components/Footer";
+import { getAllUsers } from "..";
+import { SortButtons } from "./components/SortButtons";
 
 export const Home = () => {
 	const colorToggler = useColorToggler();
 	const dispatch = useDispatch();
 	const { allPosts } = useSelector((state) => state.posts);
-	useEffect(() => dispatch(getPosts()), []);
+	useEffect(() => {
+		dispatch(getAllUsers());
+		dispatch(getPosts());
+	}, []);
 	let location = useLocation();
 	let currPage = location.state?.pageToShow;
 	return (
@@ -45,6 +50,16 @@ export const Home = () => {
 									{...postsGridContainer}
 									borderColor={colorToggler(400)}
 								>
+									<Center
+										display={["flex", "flex", "flex", "none"]}
+										borderBottom={"1px solid"}
+										borderBottomColor={colorToggler(600)}
+										w="100%"
+										bg={colorToggler(800)}
+										zIndex="100"
+									>
+										<SortButtons />
+									</Center>
 									<Box
 										borderBottom={"1px solid"}
 										borderBottomColor={colorToggler(600)}

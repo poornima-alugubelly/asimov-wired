@@ -10,6 +10,7 @@ import {
 	VStack,
 	InputGroup,
 	InputRightElement,
+	FormErrorMessage,
 } from "@chakra-ui/react";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -29,18 +30,62 @@ export const SignUp = () => {
 		username: "",
 		password: "",
 	});
+	const { firstName, lastName, email, username, password } = formVal;
 	const dispatch = useDispatch();
 	const { token, user, authStatus, authError } = useSelector(
 		(state) => state.auth
 	);
-	const navigate = useNavigate();
+	const [formErrors, setFormErrors] = useState({
+		firstNameError: "",
+		lastNameError: "",
+		emailError: "",
+		usernameError: "",
+		passwordError: "",
+	});
+	let {
+		firstNameError,
+		lastNameError,
+		emailError,
+		usernameError,
+		passwordError,
+	} = formErrors;
+	const validityChecker = () => {
+		if (firstName === "" || !/^[a-zA-Z]+$/.test(firstName)) {
+			formErrors.firstNameError = "Invalid firstname";
+		}
+		if (lastName === "" || !/^[a-zA-Z]+$/.test(lastName)) {
+			formErrors.lastNameError = "Invalid lastname";
+		}
+		if (email === "" || !/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email)) {
+			formErrors.emailError = "invalid email";
+		}
+		if (username === "" || !/^[a-zA-Z0-9_.]+$/.test(username)) {
+			formErrors.usernameError =
+				"Invalid username: username can have only letters, numbers, _ and .";
+		}
+		if (password === "" || !/^(?=.*\d).{8,}$/.test(password)) {
+			formErrors.passwordError =
+				"Password should be atleast 8 characters in length";
+		}
+		if (Object.values(formErrors).some((x) => x !== "")) {
+			return false;
+		}
+		return true;
+	};
 
+	const navigate = useNavigate();
+	const [submitted, setSubmitted] = useState(false);
 	const signUpHandler = async (e, formVal) => {
 		e.preventDefault();
-		const res = await dispatch(signupUser(formVal));
+		if (!validityChecker()) {
+			setFormErrors(formErrors);
+			setSubmitted(true);
+		} else {
+			const res = await dispatch(signupUser(formVal));
 
-		if (res?.payload.encodedToken) {
-			navigate("/");
+			if (res?.payload.encodedToken) {
+				navigate("/");
+			}
 		}
 	};
 
@@ -78,59 +123,79 @@ export const SignUp = () => {
 					</Text>
 				</Center>
 				<VStack spacing="4">
-					<FormControl isRequired>
+					<FormControl isRequired isInvalid={firstNameError && submitted}>
 						<FormLabel htmlFor="firstName" isRequired mb="0">
 							First Name
 						</FormLabel>
 						<Input
 							id="firstName"
 							placeholder="Enter first name..."
-							value={formVal.firstName}
+							value={firstName}
 							onChange={(e) =>
 								setFormVal((prev) => ({ ...prev, firstName: e.target.value }))
 							}
 						/>
+						{firstNameError && submitted ? (
+							<FormErrorMessage color="red">{firstNameError}</FormErrorMessage>
+						) : (
+							""
+						)}
 					</FormControl>
-					<FormControl isRequired>
+					<FormControl isRequired isInvalid={lastNameError && submitted}>
 						<FormLabel htmlFor="lastName" isRequired mb="0">
 							Last Name
 						</FormLabel>
 						<Input
 							id="lastName"
 							placeholder="Enter last name..."
-							value={formVal.lastName}
+							value={lastName}
 							onChange={(e) =>
 								setFormVal((prev) => ({ ...prev, lastName: e.target.value }))
 							}
 						/>
+						{lastNameError && submitted ? (
+							<FormErrorMessage color="red">{lastNameError}</FormErrorMessage>
+						) : (
+							""
+						)}
 					</FormControl>
-					<FormControl isRequired>
+					<FormControl isRequired isInvalid={emailError && submitted}>
 						<FormLabel htmlFor="email" isRequired mb="0">
 							Email
 						</FormLabel>
 						<Input
 							id="email"
 							placeholder="Enter email address..."
-							value={formVal.email}
+							value={email}
 							onChange={(e) =>
 								setFormVal((prev) => ({ ...prev, email: e.target.value }))
 							}
 						/>
+						{emailError && submitted ? (
+							<FormErrorMessage color="red">{emailError}</FormErrorMessage>
+						) : (
+							""
+						)}
 					</FormControl>
-					<FormControl isRequired>
+					<FormControl isRequired isInvalid={usernameError && submitted}>
 						<FormLabel htmlFor="username" isRequired mb="0">
 							User Name
 						</FormLabel>
 						<Input
 							id="username"
 							placeholder="Enter username..."
-							value={formVal.username}
+							value={username}
 							onChange={(e) =>
 								setFormVal((prev) => ({ ...prev, username: e.target.value }))
 							}
 						/>
+						{usernameError && submitted ? (
+							<FormErrorMessage color="red">{usernameError}</FormErrorMessage>
+						) : (
+							""
+						)}
 					</FormControl>
-					<FormControl isRequired>
+					<FormControl isRequired isInvalid={passwordError && submitted}>
 						<FormLabel htmlFor="password" mb="0">
 							Password
 						</FormLabel>
@@ -139,7 +204,7 @@ export const SignUp = () => {
 								id="password"
 								type={`${pwdToggle.type}`}
 								placeholder="Enter password..."
-								value={formVal.password}
+								value={password}
 								onChange={(e) =>
 									setFormVal((prev) => ({ ...prev, password: e.target.value }))
 								}
@@ -153,8 +218,13 @@ export const SignUp = () => {
 								}
 							/>
 						</InputGroup>
+						{passwordError && submitted ? (
+							<FormErrorMessage color="red">{passwordError}</FormErrorMessage>
+						) : (
+							""
+						)}
 					</FormControl>
-					{formVal.username !== "adarshbalika" && authStatus === "loading" ? (
+					{username !== "adarshbalika" && authStatus === "loading" ? (
 						<Button isLoading loadingText="Logging in..." w="full">
 							Sign up
 						</Button>
@@ -164,7 +234,7 @@ export const SignUp = () => {
 						</Button>
 					)}
 				</VStack>
-				{authError && <Text>{authError}</Text>}
+				{authError && <Text color="red">{authError}</Text>}
 				<Flex align="center" justify="center" gap={2} pt="2">
 					<Text>Already Have an account?</Text>
 					<Link to="/login">

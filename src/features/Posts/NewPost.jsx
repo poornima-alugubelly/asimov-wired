@@ -8,12 +8,17 @@ import {
 	Box,
 	Image,
 	Text,
-	IconButton,
+	Icon,
 	CircularProgress,
 	CircularProgressLabel,
+	Input,
+	FormControl,
+	FormLabel,
+	CloseButton,
+	IconButton,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { AiOutlinePicture } from "react-icons/ai";
+import { AiOutlinePicture, AiFillCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createPost } from "./postSlice";
@@ -21,20 +26,52 @@ import { postCard, flexSpaceBetween } from "../../styles";
 import { useColorToggler } from "../../hooks/useColorToggler";
 
 export const NewPost = ({ close = null }) => {
-	const [content, setPostContent] = useState("");
+	const [postData, setPostData] = useState({
+		content: "",
+		postImage: "",
+	});
+	console.log(postData.postImage);
+	const { content, postImage } = postData;
 	const dispatch = useDispatch();
 	const {
 		token,
 		user: { firstName, lastName, username, avatarURL },
 	} = useSelector((state) => state.auth);
-	const submitHandler = () => {
-		dispatch(createPost({ token, postData: { content: content } }));
-		setPostContent("");
-		if (close) {
-			close();
-		}
-	};
+
 	const colorToggler = useColorToggler();
+	const submitHandler = async () => {
+		if (postImage === "") {
+			dispatch(createPost({ token, postData }));
+			setPostData({ content: "" });
+		} else {
+			const data = new FormData();
+
+			data.append("file", postImage);
+			data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_API_KEY);
+			const requestOptions = {
+				method: "POST",
+				body: data,
+			};
+			await fetch(
+				"https://api.cloudinary.com/v1_1/dodkrr6ce/image/upload",
+				requestOptions
+			)
+				.then((response) => response.json())
+				.then((json) => {
+					dispatch(
+						createPost({
+							token,
+							postData: { content: postData.content, postImage: json.url },
+						})
+					);
+					setPostData({ content: "", postImage: "" });
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		}
+		if (close) close();
+	};
 	return (
 		<VStack {...postCard}>
 			<Link to={`/profile/${username}`} state={{ pageToShow: "profile" }}>
@@ -54,18 +91,50 @@ export const NewPost = ({ close = null }) => {
 				border="none"
 				resize="none"
 				focusBorderColor="transparent"
-				value={content}
-				onChange={(e) => setPostContent(e.target.value)}
+				value={postData.content}
+				onChange={(e) =>
+					setPostData((prev) => ({ ...prev, content: e.target.value }))
+				}
 			></Textarea>
-			{/* <Box w="full">
-				<Image
-					src="https://bit.ly/dan-abramov"
-					alt="Dan Abramov"
-					w="80%"
-					borderRadius="30"
-				/>
-			</Box> */}
-			<Flex justify="flex-end" w="full">
+			{postData.postImage && (
+				<Box w="full" h="500" position="relative">
+					<Image
+						src={URL.createObjectURL(postData.postImage)}
+						alt="uploaded post"
+						w="100%"
+						h="500"
+						objectFit={"contain"}
+					/>
+					<IconButton
+						position="absolute"
+						top="2%"
+						icon={<AiFillCloseCircle />}
+						variant="iconButton"
+						fontSize={"30"}
+						onClick={() => setPostData((prev) => ({ ...prev, postImage: "" }))}
+					/>
+				</Box>
+			)}
+			<Flex {...flexSpaceBetween}>
+				<FormControl width="1rem">
+					<FormLabel
+						position="absolute"
+						left="0"
+						bottom="0"
+						cursor="pointer"
+						marginBottom="0"
+					>
+						<Icon as={AiOutlinePicture} fontSize={"30"} />
+					</FormLabel>
+					<Input
+						type="file"
+						visibility="hidden"
+						accept="image/*"
+						onChange={(e) =>
+							setPostData((prev) => ({ ...prev, postImage: e.target.files[0] }))
+						}
+					/>
+				</FormControl>
 				<HStack spacing="2">
 					{content.length !== 0 && (
 						<CircularProgress
@@ -86,7 +155,10 @@ export const NewPost = ({ close = null }) => {
 
 					<Button
 						onClick={submitHandler}
-						isDisabled={content.trim().length === 0 || content.length > 400}
+						isDisabled={
+							(content.trim().length === 0 && postImage === "") ||
+							content.length > 400
+						}
 					>
 						Post
 					</Button>

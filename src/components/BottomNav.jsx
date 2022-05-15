@@ -6,6 +6,7 @@ import { CgProfile } from "react-icons/cg";
 import { useColorToggler } from "../hooks/useColorToggler";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { NewPostModal } from "../features";
 
 export const BottomNav = () => {
 	const colorToggler = useColorToggler();
@@ -40,6 +41,7 @@ export const BottomNav = () => {
 						className="icon-btn"
 					/>
 				</Link>
+				<NewPostModal />
 				<Link to={`/profile/${username}`} state={{ pageToShow: "profile" }}>
 					<Icon as={CgProfile} color={colorToggler(400)} className="icon-btn" />
 				</Link>
