@@ -59,8 +59,9 @@ export const SignUp = () => {
 		if (email === "" || !/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email)) {
 			formErrors.emailError = "invalid email";
 		}
-		if (username === "" || !/^[a-z0-9_.]+$/.test(username)) {
-			formErrors.usernameError = "invalid usernameError";
+		if (username === "" || !/^[a-zA-Z0-9_.]+$/.test(username)) {
+			formErrors.usernameError =
+				"Invalid username: username can have only letters, numbers, _ and .";
 		}
 		if (password === "" || !/^(?=.*\d).{8,}$/.test(password)) {
 			formErrors.passwordError =

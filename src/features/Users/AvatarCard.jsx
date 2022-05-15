@@ -7,7 +7,7 @@ export const AvatarCard = ({ username }) => {
 	return (
 		<HStack spacing="2">
 			<Avatar
-				name={`{${foundUser?.firstName} ${foundUser?.lastName}}`}
+				name={`${foundUser?.firstName} ${foundUser?.lastName}}`}
 				src={foundUser?.avatarURL}
 			/>
 			<HStack spacing="1">
