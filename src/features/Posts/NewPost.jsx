@@ -30,8 +30,8 @@ export const NewPost = ({ close = null }) => {
 		content: "",
 		postImage: "",
 	});
-	console.log(postData.postImage);
 	const { content, postImage } = postData;
+	const [posting, setPosting] = useState();
 	const dispatch = useDispatch();
 	const {
 		token,
@@ -45,7 +45,7 @@ export const NewPost = ({ close = null }) => {
 			setPostData({ content: "" });
 		} else {
 			const data = new FormData();
-
+			setPosting(true);
 			data.append("file", postImage);
 			data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_API_KEY);
 			const requestOptions = {
@@ -64,6 +64,7 @@ export const NewPost = ({ close = null }) => {
 							postData: { content: postData.content, postImage: json.url },
 						})
 					);
+					setPosting(false);
 					setPostData({ content: "", postImage: "" });
 				})
 				.catch((error) => {
@@ -97,22 +98,27 @@ export const NewPost = ({ close = null }) => {
 				}
 			></Textarea>
 			{postData.postImage && (
-				<Box w="full" h="500" position="relative">
-					<Image
-						src={URL.createObjectURL(postData.postImage)}
-						alt="uploaded post"
-						w="100%"
-						h="500"
-						objectFit={"contain"}
-					/>
-					<IconButton
-						position="absolute"
-						top="2%"
-						icon={<AiFillCloseCircle />}
-						variant="iconButton"
-						fontSize={"30"}
-						onClick={() => setPostData((prev) => ({ ...prev, postImage: "" }))}
-					/>
+				<Box w="full">
+					<Box w="minContent" h="500" position="relative" m="auto">
+						<Image
+							src={URL.createObjectURL(postData.postImage)}
+							alt="uploaded post"
+							w="100%"
+							h="500"
+							objectFit={"cover"}
+						/>
+						<IconButton
+							position="absolute"
+							top="3%"
+							right="3%"
+							icon={<AiFillCloseCircle color="black" />}
+							variant="iconButton"
+							fontSize={"30"}
+							onClick={() =>
+								setPostData((prev) => ({ ...prev, postImage: "" }))
+							}
+						/>
+					</Box>
 				</Box>
 			)}
 			<Flex {...flexSpaceBetween}>
@@ -152,16 +158,19 @@ export const NewPost = ({ close = null }) => {
 							)}
 						</CircularProgress>
 					)}
-
-					<Button
-						onClick={submitHandler}
-						isDisabled={
-							(content.trim().length === 0 && postImage === "") ||
-							content.length > 400
-						}
-					>
-						Post
-					</Button>
+					{posting ? (
+						<Button isLoading loadingText="posting"></Button>
+					) : (
+						<Button
+							onClick={submitHandler}
+							isDisabled={
+								(content.trim().length === 0 && postImage === "") ||
+								content.length > 400
+							}
+						>
+							Post
+						</Button>
+					)}
 				</HStack>
 			</Flex>
 		</VStack>

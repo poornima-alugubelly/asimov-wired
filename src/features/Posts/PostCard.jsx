@@ -18,6 +18,7 @@ import {
 	FormControl,
 	FormLabel,
 	Icon,
+	Center,
 } from "@chakra-ui/react";
 import {
 	AiOutlineHeart,
@@ -215,31 +216,34 @@ export const PostCard = ({ postDetails }) => {
 				<Text w="100%">{postEdited?.content}</Text>
 			)}
 			{postEdited?.postImage && (
-				<Box w="full" h="500" position="relative">
-					<Image
-						src={
-							typeof postEdited?.postImage === "string"
-								? postEdited?.postImage
-								: URL.createObjectURL(postEdited?.postImage)
-						}
-						alt="uploaded post"
-						w="100%"
-						h="500"
-						objectFit={"contain"}
-					/>
-					{isEditing && (
-						<IconButton
-							position="absolute"
-							top="-2"
-							right="4%"
-							icon={<AiFillCloseCircle />}
-							variant="iconButton"
-							fontSize={"30"}
-							onClick={() =>
-								setPostEdited((prev) => ({ ...prev, postImage: "" }))
+				<Box w="full">
+					<Box w="minContent" h="500" position="relative" m="auto">
+						<Image
+							src={
+								typeof postEdited?.postImage === "string"
+									? postEdited?.postImage
+									: URL.createObjectURL(postEdited?.postImage)
 							}
+							alt="uploaded post"
+							w="100%"
+							h="500"
+							objectFit={"contain"}
 						/>
-					)}
+
+						{isEditing && (
+							<IconButton
+								position="absolute"
+								top="3%"
+								right="3%"
+								icon={<AiFillCloseCircle />}
+								variant="iconButton"
+								fontSize={"30"}
+								onClick={() =>
+									setPostEdited((prev) => ({ ...prev, postImage: "" }))
+								}
+							/>
+						)}
+					</Box>
 				</Box>
 			)}
 			<Box w="full">
