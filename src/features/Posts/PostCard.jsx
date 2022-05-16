@@ -212,7 +212,7 @@ export const PostCard = ({ postDetails }) => {
 					</Box>
 				</VStack>
 			) : (
-				<Text>{postEdited?.content}</Text>
+				<Text w="100%">{postEdited?.content}</Text>
 			)}
 			{postEdited?.postImage && (
 				<Box w="full" h="500" position="relative">

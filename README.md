@@ -1,6 +1,6 @@
 # Asimov-Wired
 
-Asimov Wired is a sc-fi themed social media app built using React,Redux,chakra UI and Mockbee (mock backend)
+Asimov Wired is a sci-fi themed social media app built using React,Redux,chakra UI and Mockbee (mock backend)
 
 ## Features Present
 
