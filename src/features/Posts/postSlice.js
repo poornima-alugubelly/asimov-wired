@@ -173,6 +173,7 @@ const initialState = {
 	sortBy: "latest",
 	openLikesList: false,
 	likesList: [],
+	gifSelected: "",
 };
 
 const postSlice = createSlice({
@@ -185,6 +186,9 @@ const postSlice = createSlice({
 		setOpenLikesList: (state, action) => {
 			state.openLikesList = action.payload.likesListState;
 			state.likesList = action.payload.likesListVal;
+		},
+		gifClicked: (state, action) => {
+			state.gifSelected = action.payload;
 		},
 	},
 	extraReducers: {
@@ -272,5 +276,6 @@ const postSlice = createSlice({
 	},
 });
 
-export const { sortByValue, setOpenLikesList } = postSlice.actions;
+export const { sortByValue, setOpenLikesList, gifClicked, setGifsLoading } =
+	postSlice.actions;
 export const postReducer = postSlice.reducer;

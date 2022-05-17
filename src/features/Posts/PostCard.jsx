@@ -192,7 +192,9 @@ export const PostCard = ({ postDetails }) => {
 						<Button
 							onClick={saveHandler}
 							isDisabled={
-								postEdited.content.length === 0 && postEdited.postImage === ""
+								postEdited?.content.length === 0 &&
+								postEdited?.postImage === "" &&
+								postEdited?.gifSelected === ""
 							}
 						>
 							Save
@@ -216,7 +218,7 @@ export const PostCard = ({ postDetails }) => {
 				<Text w="100%">{postEdited?.content}</Text>
 			)}
 			{postEdited?.postImage && (
-				<Box w="full">
+				<Box w="full" key={postEdited?.id}>
 					<Box w="minContent" h="500" position="relative" m="auto">
 						<Image
 							src={
@@ -239,7 +241,41 @@ export const PostCard = ({ postDetails }) => {
 								variant="iconButton"
 								fontSize={"30"}
 								onClick={() =>
-									setPostEdited((prev) => ({ ...prev, postImage: "" }))
+									setPostEdited((prev) => ({
+										...prev,
+										postImage: "",
+										gifSelected: "",
+									}))
+								}
+							/>
+						)}
+					</Box>
+				</Box>
+			)}
+			{postEdited?.gifSelected && (
+				<Box w="full">
+					<Box w="minContent" h="500" position="relative" m="auto">
+						<Image
+							src={postEdited?.gifSelected}
+							alt="uploaded gif"
+							w="100%"
+							h="500"
+							objectFit={"contain"}
+						/>
+
+						{isEditing && (
+							<IconButton
+								position="absolute"
+								top="3%"
+								right="3%"
+								icon={<AiFillCloseCircle />}
+								variant="iconButton"
+								fontSize={"30"}
+								onClick={() =>
+									setPostEdited((prev) => ({
+										...prev,
+										gifSelected: "",
+									}))
 								}
 							/>
 						)}
