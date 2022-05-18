@@ -114,6 +114,7 @@ export const NewPost = ({ close = null }) => {
 							w="100%"
 							h="500"
 							objectFit={"contain"}
+							loading="lazy"
 						/>
 						<IconButton
 							position="absolute"
@@ -138,6 +139,7 @@ export const NewPost = ({ close = null }) => {
 							w="100%"
 							h="500"
 							objectFit={"contain"}
+							loading="lazy"
 						/>
 						<IconButton
 							position="absolute"

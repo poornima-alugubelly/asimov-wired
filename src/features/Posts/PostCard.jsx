@@ -243,6 +243,7 @@ export const PostCard = ({ postDetails }) => {
 							w="100%"
 							h="500"
 							objectFit={"contain"}
+							loading="lazy"
 						/>
 
 						{isEditing && (
@@ -274,6 +275,7 @@ export const PostCard = ({ postDetails }) => {
 							w="100%"
 							h="500"
 							objectFit={"contain"}
+							loading="lazy"
 						/>
 
 						{isEditing && (
