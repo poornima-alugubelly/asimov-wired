@@ -34,7 +34,6 @@ export const SortButtons = () => {
 				what's trending
 			</Button>
 			<Select
-				placeholder="Date Posted"
 				bgColor={colorToggler(800)}
 				value={selectVal}
 				onChange={changeHandler}

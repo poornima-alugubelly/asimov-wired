@@ -7,19 +7,27 @@ import {
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { UserHorizontalCard } from "..";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { useState } from "react";
 import { getSearchedUsers } from "../../helpers/getSearchedUsers";
+import { useDebounce } from "../../hooks/useDebounce";
+
 export const Search = () => {
 	const { allUsers } = useSelector((state) => state.users);
 	const { pathname } = useLocation();
 	const colorToggler = useColorToggler();
 	const [searchText, setSearchText] = useState("");
-	const searchedUsers = getSearchedUsers(allUsers, searchText.trim());
+	const [searchedUsers, setSearchedUsers] = useState([]);
+	const debouncedSearchVal = useDebounce(searchText, 800);
+
+	useEffect(() => {
+		setSearchedUsers(getSearchedUsers(allUsers, searchText));
+	}, [debouncedSearchVal]);
+
 	useEffect(() => {
 		setSearchText("");
 	}, [pathname]);
@@ -29,7 +37,7 @@ export const Search = () => {
 				<Input
 					placeholder="enter username"
 					value={searchText}
-					onChange={(e) => setSearchText(e.target.value)}
+					onChange={(e) => setSearchText(e.target.value.trim())}
 				></Input>
 				<InputRightElement
 					as="button"

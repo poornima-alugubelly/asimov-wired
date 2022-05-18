@@ -118,6 +118,8 @@ export function makeServer({ environment = "development" } = {}) {
 				"https://api.cloudinary.com/v1_1/dodkrr6ce/image/upload",
 				["post"]
 			);
+			this.passthrough();
+			this.passthrough("https://api.giphy.com/v1/**");
 		},
 	});
 }

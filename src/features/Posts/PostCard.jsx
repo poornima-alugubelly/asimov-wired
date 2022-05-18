@@ -18,6 +18,7 @@ import {
 	FormControl,
 	FormLabel,
 	Icon,
+	Center,
 } from "@chakra-ui/react";
 import {
 	AiOutlineHeart,
@@ -47,6 +48,7 @@ import {
 import { postCard, flexSpaceBetween } from "../../styles";
 import { getTimeDifference } from "../../helpers/getTimeDifference";
 import { checkUserPresent } from "../../helpers/checkUserPresent";
+import { GifGrid } from "./GifGrid";
 import { AvatarCard } from "../Users/AvatarCard";
 
 export const PostCard = ({ postDetails }) => {
@@ -166,32 +168,46 @@ export const PostCard = ({ postDetails }) => {
 						}
 					></Textarea>{" "}
 					<Box>
-						<FormControl width="1rem">
-							<FormLabel
-								position="absolute"
-								left="0"
-								bottom="0"
-								cursor="pointer"
-								marginBottom="0"
-							>
-								<Icon as={AiOutlinePicture} fontSize={"30"} />
-							</FormLabel>
-							<Input
-								type="file"
-								visibility="hidden"
-								accept="image/*"
-								onChange={(e) =>
-									setPostEdited((prev) => ({
-										...prev,
-										postImage: e.target.files[0],
-									}))
-								}
-							/>
-						</FormControl>
+						<HStack spacing="8">
+							<FormControl width="1rem">
+								<FormLabel
+									position="absolute"
+									left="0"
+									bottom="0"
+									cursor="pointer"
+									marginBottom="0"
+								>
+									{postEdited?.gifSelected ? (
+										<Icon
+											as={AiOutlinePicture}
+											fontSize={"30"}
+											color="gray"
+											cursor={"not-allowed"}
+										/>
+									) : (
+										<Icon as={AiOutlinePicture} fontSize={"30"} />
+									)}
+								</FormLabel>
+								<Input
+									type="file"
+									visibility="hidden"
+									accept="image/*"
+									onChange={(e) =>
+										setPostEdited((prev) => ({
+											...prev,
+											postImage: e.target.files[0],
+										}))
+									}
+								/>
+							</FormControl>
+							<GifGrid imageSelected={postEdited?.postImage} />
+						</HStack>
 						<Button
 							onClick={saveHandler}
 							isDisabled={
-								postEdited.content.length === 0 && postEdited.postImage === ""
+								postEdited?.content.length === 0 &&
+								postEdited?.postImage === "" &&
+								postEdited?.gifSelected === ""
 							}
 						>
 							Save
@@ -215,31 +231,70 @@ export const PostCard = ({ postDetails }) => {
 				<Text w="100%">{postEdited?.content}</Text>
 			)}
 			{postEdited?.postImage && (
-				<Box w="full" h="500" position="relative">
-					<Image
-						src={
-							typeof postEdited?.postImage === "string"
-								? postEdited?.postImage
-								: URL.createObjectURL(postEdited?.postImage)
-						}
-						alt="uploaded post"
-						w="100%"
-						h="500"
-						objectFit={"contain"}
-					/>
-					{isEditing && (
-						<IconButton
-							position="absolute"
-							top="-2"
-							right="4%"
-							icon={<AiFillCloseCircle />}
-							variant="iconButton"
-							fontSize={"30"}
-							onClick={() =>
-								setPostEdited((prev) => ({ ...prev, postImage: "" }))
+				<Box w="full" key={postEdited?.id}>
+					<Box w="fit-content" h="500" position="relative" m="auto">
+						<Image
+							src={
+								typeof postEdited?.postImage === "string"
+									? postEdited?.postImage
+									: URL.createObjectURL(postEdited?.postImage)
 							}
+							alt="uploaded post"
+							w="100%"
+							h="500"
+							objectFit={"contain"}
+							loading="lazy"
 						/>
-					)}
+
+						{isEditing && (
+							<IconButton
+								position="absolute"
+								top="4%"
+								right="4%"
+								icon={<AiFillCloseCircle color="black" />}
+								variant="iconButton"
+								fontSize={"30"}
+								onClick={() =>
+									setPostEdited((prev) => ({
+										...prev,
+										postImage: "",
+										gifSelected: "",
+									}))
+								}
+							/>
+						)}
+					</Box>
+				</Box>
+			)}
+			{postEdited?.gifSelected && (
+				<Box w="full">
+					<Box w="fit-content" h="500" position="relative" m="auto">
+						<Image
+							src={postEdited?.gifSelected}
+							alt="uploaded gif"
+							w="100%"
+							h="500"
+							objectFit={"contain"}
+							loading="lazy"
+						/>
+
+						{isEditing && (
+							<IconButton
+								position="absolute"
+								top="4%"
+								right="4%"
+								icon={<AiFillCloseCircle color="black" />}
+								variant="iconButton"
+								fontSize={"30"}
+								onClick={() =>
+									setPostEdited((prev) => ({
+										...prev,
+										gifSelected: "",
+									}))
+								}
+							/>
+						)}
+					</Box>
 				</Box>
 			)}
 			<Box w="full">
