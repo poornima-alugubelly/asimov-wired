@@ -151,7 +151,11 @@ export const GifGrid = ({ imageSelected }) => {
 										key={index}
 										w="150"
 										h="150"
-										onClick={() => dispatch(gifClicked(gif.url))}
+										onClick={() => {
+											dispatch(gifClicked(gif.url));
+											onClose();
+											setSearchText("");
+										}}
 									>
 										<Image src={gif.url} w="100%" h="100%" />
 									</GridItem>
