@@ -25,6 +25,7 @@ import { BsSearch } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { gifClicked } from "./postSlice";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export const GifGrid = ({ imageSelected }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,7 +56,7 @@ export const GifGrid = ({ imageSelected }) => {
 	const getGif = () => {
 		const key = process.env.REACT_APP_GIPHY_KEY;
 		let url = `https://api.giphy.com/v1/gifs/search?api_key=${key}&limit=6&q=${searchText}`;
-		setTimeout(() => dispatch(setGifsLoading(true)), 100);
+		console.log("fetched");
 		fetch(url)
 			.then((response) => response.json())
 			.then((content) => {
@@ -68,9 +69,12 @@ export const GifGrid = ({ imageSelected }) => {
 				setGifsLoading(false);
 			});
 	};
+	const debouncedSearch = useDebounce(searchText, 1200);
 	useEffect(() => {
+		setGifsLoading(true);
 		getGif();
-	}, [searchText]);
+		// debounce(getGif, 1200)();
+	}, [debouncedSearch]);
 
 	return (
 		<>
@@ -137,7 +141,7 @@ export const GifGrid = ({ imageSelected }) => {
 							</Center>
 						) : (
 							<Grid
-								h={"fitContent"}
+								h={"500"}
 								templateRows="repeat(3, 1fr)"
 								templateColumns="repeat(2, 1fr)"
 								gap={4}
@@ -149,7 +153,6 @@ export const GifGrid = ({ imageSelected }) => {
 										h="150"
 										onClick={() => dispatch(gifClicked(gif.url))}
 									>
-										{console.log(gif)}
 										<Image src={gif.url} w="100%" h="100%" />
 									</GridItem>
 								))}
