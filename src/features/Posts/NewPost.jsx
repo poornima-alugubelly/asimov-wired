@@ -117,8 +117,8 @@ export const NewPost = ({ close = null }) => {
 						/>
 						<IconButton
 							position="absolute"
-							top="3%"
-							right="3%"
+							top="4%"
+							right="4%"
 							icon={<AiFillCloseCircle color="black" />}
 							variant="iconButton"
 							fontSize={"30"}

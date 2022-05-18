@@ -17,6 +17,7 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
+	Center,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { AiOutlineGif, AiOutlineClose } from "react-icons/ai";
@@ -82,7 +83,12 @@ export const GifGrid = ({ imageSelected }) => {
 					cursor="not-allowed"
 				/>
 			) : (
-				<Icon as={AiOutlineGif} fontSize={"25"} onClick={onOpen} />
+				<Icon
+					as={AiOutlineGif}
+					fontSize={"25"}
+					onClick={onOpen}
+					cursor="pointer"
+				/>
 			)}
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
@@ -91,7 +97,7 @@ export const GifGrid = ({ imageSelected }) => {
 					border="1px solid"
 					borderColor={colorToggler(400)}
 				>
-					<ModalHeader>Modal Title</ModalHeader>
+					<ModalHeader>Add a gif...</ModalHeader>
 					<ModalCloseButton
 						bg="transparent"
 						_focus={{
@@ -126,7 +132,9 @@ export const GifGrid = ({ imageSelected }) => {
 							</InputGroup>
 						</Box>
 						{gifsLoading ? (
-							<Spinner />
+							<Center>
+								<Spinner />
+							</Center>
 						) : (
 							<Grid
 								h={"fitContent"}
