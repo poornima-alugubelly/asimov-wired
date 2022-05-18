@@ -32,7 +32,7 @@ export const AllPosts = () => {
 	useEffect(() => {
 		dispatch(getPosts());
 	}, []);
-	const postsToShow = allPosts.slice(0, pageNum * 6);
+
 	let firstSlice = allPosts.slice(0, (pageNum - 1) * 6);
 	let lastSlice = allPosts.slice((pageNum - 1) * 6, pageNum * 6);
 	return (

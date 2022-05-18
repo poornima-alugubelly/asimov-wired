@@ -5,7 +5,6 @@ export const useInfiniteScroll = ({ lastElement, allPosts }) => {
 	const totalPages = Math.ceil(allPosts.length / 6);
 	const [pageNum, setPageNum] = useState(1);
 	const [loading, setLoading] = useState(false);
-	const { pathName } = useLocation();
 	useEffect(() => {
 		const elementRef = lastElement.current;
 		console.log(elementRef);
