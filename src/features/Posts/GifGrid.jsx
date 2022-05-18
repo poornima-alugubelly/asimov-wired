@@ -112,7 +112,7 @@ export const GifGrid = ({ imageSelected }) => {
 						<Box w={[40, "xs", "xs", "xs"]} m="auto">
 							<InputGroup w="100%" m="2" position="relative">
 								<Input
-									placeholder="enter username"
+									placeholder="Search for gif"
 									value={searchText}
 									onChange={(e) => {
 										setSearchText(e.target.value);
