@@ -14,6 +14,7 @@ import { UserHorizontalCard } from "..";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { useState } from "react";
 import { getSearchedUsers } from "../../helpers/getSearchedUsers";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export const Search = () => {
 	const { allUsers } = useSelector((state) => state.users);
@@ -21,16 +22,11 @@ export const Search = () => {
 	const colorToggler = useColorToggler();
 	const [searchText, setSearchText] = useState("");
 	const [searchedUsers, setSearchedUsers] = useState([]);
-	const timerId = useRef();
+	const debouncedSearchVal = useDebounce(searchText, 800);
 
 	useEffect(() => {
-		clearTimeout(timerId.current);
-		timerId.current = setTimeout(() => {
-			setSearchedUsers(getSearchedUsers(allUsers, searchText));
-			console.log("called");
-		}, 1000);
-		return () => clearTimeout(timerId.current);
-	}, [searchText]);
+		setSearchedUsers(getSearchedUsers(allUsers, searchText));
+	}, [debouncedSearchVal]);
 
 	useEffect(() => {
 		setSearchText("");

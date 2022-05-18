@@ -11,6 +11,8 @@ Asimov Wired is a sci-fi themed social media app built using React,Redux,chakra 
 - Create a Post
   - Like
   - Comment & Replies
+  - Add image
+  - Add gif (debounced calls to GIPHY)
 - Edit & Delete Post
 - User Feed
   - Sort by Date and Trending
@@ -19,7 +21,7 @@ Asimov Wired is a sci-fi themed social media app built using React,Redux,chakra 
   - Bio
   - Portfolio URL
 - Follow/Unfollow
-- Search by
+- Search by (debounced)
   - User firstname or lastname
   - username
 - Explore Feed
