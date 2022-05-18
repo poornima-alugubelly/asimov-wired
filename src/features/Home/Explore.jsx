@@ -12,11 +12,12 @@ export const Explore = () => {
 	let { allPosts } = useSelector((state) => state.posts);
 	allPosts = sortByDate(allPosts);
 	const lastElement = useRef(null);
-	const { pageNum } = useInfiniteScroll({ allPosts, lastElement });
-	const postsToShow = allPosts.slice(0, pageNum * 6);
+	const { pageNum, loading } = useInfiniteScroll({ allPosts, lastElement });
+	let firstSlice = allPosts.slice(0, (pageNum - 1) * 6);
+	let lastSlice = allPosts.slice((pageNum - 1) * 6, pageNum * 6);
 	return (
 		<GridItem {...postsGridContainer} borderColor={colorToggler(400)}>
-			{postsToShow?.map((post) => (
+			{firstSlice?.map((post) => (
 				<Box
 					borderBottom={"1px solid"}
 					borderBottomColor={colorToggler(600)}
@@ -24,12 +25,28 @@ export const Explore = () => {
 				>
 					<Center>
 						<PostCard postDetails={post} />
-						<Box></Box>
 					</Center>
 				</Box>
 			))}
+			{loading ? (
+				<Center py="4">
+					<Spinner color={colorToggler(400)} size="xl" />
+				</Center>
+			) : null}
+			{!loading &&
+				lastSlice?.map((post) => (
+					<Box
+						borderBottom={"1px solid"}
+						borderBottomColor={colorToggler(600)}
+						key={post.id}
+					>
+						<Center>
+							<PostCard postDetails={post} />
+						</Center>
+					</Box>
+				))}
 
-			<div ref={lastElement}></div>
+			<div ref={lastElement} key="xyz"></div>
 		</GridItem>
 	);
 };

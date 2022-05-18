@@ -1,4 +1,4 @@
-import { Box, Center } from "@chakra-ui/react";
+import { Box, Center, color, Spinner } from "@chakra-ui/react";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { getPosts, PostCard } from "../index";
 import { useEffect, useRef } from "react";
@@ -28,12 +28,16 @@ export const AllPosts = () => {
 		}
 	}
 
-	let { pageNum } = useInfiniteScroll({ allPosts, lastElement });
-	useEffect(() => dispatch(getPosts()), []);
-	const postsToShow = allPosts.slice(0, pageNum * 6);
+	let { pageNum, loading } = useInfiniteScroll({ allPosts, lastElement });
+	useEffect(() => {
+		dispatch(getPosts());
+	}, []);
+
+	let firstSlice = allPosts.slice(0, (pageNum - 1) * 6);
+	let lastSlice = allPosts.slice((pageNum - 1) * 6, pageNum * 6);
 	return (
 		<>
-			{postsToShow?.map((post) => (
+			{firstSlice?.map((post) => (
 				<Box
 					borderBottom={"1px solid"}
 					borderBottomColor={colorToggler(600)}
@@ -44,7 +48,25 @@ export const AllPosts = () => {
 					</Center>
 				</Box>
 			))}
-			<div ref={lastElement}></div>
+			{loading ? (
+				<Center py="4">
+					<Spinner color={colorToggler(400)} size="xl" />
+				</Center>
+			) : null}
+			{!loading &&
+				lastSlice?.map((post) => (
+					<Box
+						borderBottom={"1px solid"}
+						borderBottomColor={colorToggler(600)}
+						key={post.id}
+					>
+						<Center>
+							<PostCard postDetails={post} />
+						</Center>
+					</Box>
+				))}
+
+			<div ref={lastElement} key="xyz"></div>
 		</>
 	);
 };
