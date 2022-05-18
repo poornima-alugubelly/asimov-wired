@@ -27,4 +27,3 @@ Asimov Wired is a sci-fi themed social media app built using React,Redux,chakra 
 - Explore Feed
 - Bookmark Post
 - Loading & Alerts
-- User Profile Page
