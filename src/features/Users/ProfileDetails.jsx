@@ -11,9 +11,9 @@ import {
 	Link,
 	Icon,
 } from "@chakra-ui/react";
-import { RiLogoutCircleRLine } from "react-icons/ri";
+import { FiLogOut } from "react-icons/fi";
 import { BsLink45Deg } from "react-icons/bs";
-import { flexSpaceBetween, flexCenter } from "../../styles";
+import { flexSpaceBetween } from "../../styles";
 import { EditProfileForm } from "./EditProfileForm";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -51,7 +51,7 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 			<Avatar name={`${firstName} ${lastName}`} src={avatarURL} size="2xl" />
 			<Box>
 				<Flex {...flexSpaceBetween}>
-					<Box pr="2">
+					<Box pr="2" mr="4">
 						<Text fontSize="2xl">{`${firstName} ${lastName}`}</Text>
 						<Text color="gray">{`@${currUserName}`}</Text>
 					</Box>
@@ -61,7 +61,7 @@ export const ProfileDetails = ({ user, userPostsLength }) => {
 								<>
 									<EditProfileForm />
 									<IconButton
-										icon={<RiLogoutCircleRLine />}
+										icon={<FiLogOut />}
 										fontSize="2xl"
 										color="gray"
 										variant="iconButton"

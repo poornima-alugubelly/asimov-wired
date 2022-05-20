@@ -1,4 +1,4 @@
-import { GridItem, Center, Box, Image } from "@chakra-ui/react";
+import { GridItem, Center, Box } from "@chakra-ui/react";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { getUser, useProfile, resetProfile } from "./usersSlice";
 import { useEffect } from "react";

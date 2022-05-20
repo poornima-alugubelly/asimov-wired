@@ -27,7 +27,7 @@ export const getTimeDifference = (postDate) => {
 				return `${hours}h ago`;
 			}
 		} else {
-			return `${min}min ago`;
+			return `${min}m ago`;
 		}
 	} else {
 		return `${sec}s ago`;

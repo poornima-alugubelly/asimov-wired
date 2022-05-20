@@ -32,7 +32,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { GoCommentDiscussion } from "react-icons/go";
 import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useColorToggler } from "../../hooks/useColorToggler";
 import { useEffect, useState } from "react";
 import {
@@ -57,8 +57,6 @@ export const PostCard = ({ postDetails }) => {
 	const { bookmarkedPosts } = useSelector((state) => state.posts);
 	const [isEditing, setIsEditing] = useState(false);
 	const [postEdited, setPostEdited] = useState({ ...postDetails });
-	let location = useLocation();
-	let currPage = location.state?.pageToShow;
 	const {
 		user: { username: currUser, id: userId },
 		token,
@@ -124,7 +122,7 @@ export const PostCard = ({ postDetails }) => {
 					</HStack>
 				</Link>
 
-				{postDetails?.username === currUser && currPage === "profile" && (
+				{postDetails?.username === currUser && (
 					<Menu>
 						<MenuButton
 							as={IconButton}
